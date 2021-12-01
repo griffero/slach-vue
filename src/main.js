@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import App from './App.vue'
 import { library } from '@fortawesome/fontawesome-svg-core';
+import Vuelidate from 'vuelidate';
 
 import VueClipboard from 'vue-clipboard2';
 import { rutFilter, rutInputDirective } from 'vue-dni';
@@ -23,6 +24,7 @@ library.add(
 );
 
 Vue.use(VueClipboard);
+Vue.use(Vuelidate);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.filter('rutFilter', rutFilter);

@@ -1,10 +1,10 @@
 <template>
   <div class="min-h-screen flex flex-col">
-    <div class="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+    <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-2">
       <h1 class="mt-6 text-3xl font-bold"> Slach</h1>
       <h3 class="my-6 text-center">Al registrarte obtendrás un enlace único que luego podrás compartir con quien quieras.</h3>
 
-      <h2 class="m-2 font-bold text-xl">{{ this.name }}</h2>
+      <h2 class="m-2 font-bold text-xl">{{ this.fullName }}</h2>
 
       <form @submit.prevent="onSubmit" method="POST" class="w-full mx-auto">
         <div class="h-20 mt-6">
@@ -25,13 +25,13 @@
             <transition name="vertical-slide-fade">
               <p
                 class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
-                v-if="rut !== null"
+                v-if="rut != null && rut != ''"
               >
                 Rut
               </p>
             </transition>
           </div>
-          <div class='text-red-700 text-xs' v-if="$v.rut.$error && (rut == null || rut != '')">
+          <div class='text-red-700 text-xs' v-if="$v.rut.$error && !(rut == null || rut == '')">
             Ingresa un rut válido 👮🏽‍♀
           </div>
           <div class='text-red-700 text-xs' v-if="!$v.rut.required && $v.rut.$error">
@@ -48,7 +48,9 @@
                      border border-grey-lighter rounded py-4 px-4 leading-tight
                     focus:shadow-sm"
             >
-              <option v-for="_bank in banks" :key="_bank.id" :value="_bank.id">
+              <option v-for="_bank in banks" 
+                      :key="_bank.id"
+                      :value="_bank.id">
                 {{ _bank.name }}
               </option>
             </select>
@@ -89,13 +91,13 @@
             <transition name="vertical-slide-fade">
               <p
                 class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
-                v-if="accountNumber !== null"
+                v-if="accountNumber != null && accountNumber != ''"
               >
                 Número de cuenta
               </p>
             </transition>
           </div>
-          <div class='text-red-700 text-xs' v-if="$v.accountNumber.$error">
+          <div class='text-red-700 text-xs' v-if="$v.accountNumber.$error && !(accountNumber == null || accountNumber == '')">
             Ingresa un número de cuenta válido 👮🏽‍♀
           </div>
           <div class='text-red-700 text-xs' v-if="!$v.accountNumber.required && $v.accountNumber.$error">
@@ -103,18 +105,47 @@
           </div>
         </div>
 
+        <div class="h-20 mt-6">
+          <div class="w-full flex flex-col">
+            <input
+                v-model="email"
+                class="appearance-none block w-full bg-grey-lighter text-grey-900
+                      border border-grey-lighter rounded py-4 px-4 leading-tight
+                      focus:shadow-sm"
+                type="email"
+                name="email"
+                placeholder="Email"
+                @blur='touchIfPresentElseReset($v.email)'
+            >
+            <transition name="vertical-slide-fade">
+              <p
+                class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
+                v-if="email != null && email != ''"
+              >
+                Email
+              </p>
+            </transition>
+          </div>
+          <div class='text-red-700 text-xs' v-if="$v.email.$error && !(email == null || email == '')">
+            Ingresa un email válido 👮🏽‍♀
+          </div>
+          <div class='text-red-700 text-xs' v-if="!$v.email.required && $v.email.$error">
+            Este campo es obligatorio
+          </div>
+        </div>
         
         <div class="h-20 mt-2">
           Tu slach sera slach.cl/<span class="font-bold">{{alias}}</span>
           <div class="w-full flex flex-col">
             <input
-                v-model="alias"
+                v-model.trim="alias"
                 class="appearance-none block w-full bg-grey-lighter text-grey-900
                       border border-grey-lighter rounded py-4 px-4 leading-tight
                       focus:shadow-sm"
                 type="text"
                 name="name"
                 placeholder="Alias"
+                @change="trimSpaces"
             >
             <transition name="vertical-slide-fade">
               <p
@@ -133,16 +164,23 @@
           </div>
         </div>
 
-        <button
-          class="float-right mt-6 bg-transparen text-blue-700 font-semibold py-2 px-4 border border-blue-500  rounded"
-          :class="{
-            'hover:opacity-50': !$v.$invalid, 'cursor-not-allowed': $v.$invalid, 'opacity-50': $v.$invalid, 
-            'focus:outline-none': $v.$invalid, 'hover:bg-blue-500': !$v.$invalid, 'hover:text-white': !$v.$invalid,
-            'hover:border-transparent': !$v.$invalid
-          }"
-        >
-          Registrarte
-        </button>
+        <div class='mt-8'>
+          <button
+            class="bg-transparent text-blue-700 font-semibold py-2 px-4 border border-blue-500 
+                  rounded w-full"
+            :class="{
+              'hover:opacity-50': !$v.$invalid, 'cursor-not-allowed': $v.$invalid, 'opacity-50': $v.$invalid, 
+              'focus:outline-none': $v.$invalid, 'hover:bg-blue-500': !$v.$invalid, 'hover:text-white': !$v.$invalid,
+              'hover:border-transparent': !$v.$invalid
+            }"
+          >
+            Registrarte
+          </button>
+        </div>
+
+        <h1 v-if='error' class="mt-6 text-red-600">
+          Oh no 😢 {{ errorMessage }}.
+        </h1>
       </form>
     </div>
   </div>
@@ -151,7 +189,7 @@
 <script>
   import axios from 'axios';
   import { individualRut } from '../validators/rut_validator.js';
-  import { required, integer } from 'vuelidate/lib/validators';
+  import { required, integer, email } from 'vuelidate/lib/validators';
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
 
@@ -160,15 +198,18 @@
 
     data () {
       return {
-        name: null,
         rut: null,
+        email: null,
         fullName: null,
         accountNumber: null,
         alias: null,
         accountTypes,
         accountType: accountTypes[0].id,
         banks,
-        bank: banks[0].id
+        bank: banks[0].id,
+        submited: false,
+        error: false,
+        errorMessage: null,
       };
     },
 
@@ -200,6 +241,10 @@
           required,
           integer,
         },
+        email: {
+          email,
+          required,
+        }
       };
     },
 
@@ -216,22 +261,36 @@
         if(!this.$v.rut.$invalid) {
           this.getNameFromOracle()
             .then((response) => {
-              this.name = response
+              this.fullName = response
             })
         }
+      },
+
+      trimSpaces() {
+        this.alias = this.alias.replace(/ /g, '').toLowerCase();
       },
 
       onSubmit() {
         if (this.$v.$invalid) { return; }
         
+        const cleanRut = this.rut.replace(/[-.]/g, '');
         const formData = {
-          rut: this.rut,
+          rut: cleanRut,
           accountNumber: this.accountNumber,
           alias: this.alias,
-          accountType: this.accountTypes,
-          bank: this.bank
+          accountType: this.accountType,
+          bank: this.bank,
+          email: this.email
         };
-        axios.post(process.env.VUE_APP_SLACH_BACKEND, formData);
+        axios.post(`${process.env.VUE_APP_SLACH_BACKEND}/users`, formData)
+          .then(() => {
+            this.submited = true;
+            this.$router.push({ path: `/${this.alias}` })
+          })
+          .catch((error) => {
+            this.error = true;
+            this.errorMessage = error.response.data;
+          });
       },
 
       async getNameFromOracle() {
@@ -241,8 +300,6 @@
             return response.data.entity.name;
           })
       },
-    }
-    
+    } 
   }
-
 </script>

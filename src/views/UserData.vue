@@ -104,9 +104,13 @@
     </div>
   </div>
 </template>
+
 <script src="https://js.fintoc.com/v1/"></script>
 <script>
+  import banks from '../constants/banks';
+  import accountTypes from '../constants/account_types';
   import axios from 'axios';
+import account_types from '../constants/account_types';
   export default {
 
     data () {
@@ -115,9 +119,6 @@
         widget: null,
         widgetToken: null
       };
-    },
-
-    mounted() {
     },
 
     created() {
@@ -136,25 +137,11 @@
 
     computed: {
       humanizedBankName() {
-        var bankName = '';
-        if (this.user.bank == 'cl_banco_bice') {
-          bankName = 'Banco BICE';
-        }
-
-        return bankName;
+        return banks.find(bank => bank.id === this.user.bank).name;
       },
 
       humanizedAccountType() {
-        var accountType = '';
-        if (this.user.account_type == 'checking_account') {
-          accountType = 'Cuenta Corriente';
-        } else if (this.user.account_type == 'sight_account') {
-          accountType = 'Cuenta Vista';
-        } else if (this.user.account_type == 'savings_account') {
-          accountType = 'Cuenta de Ahorro';
-        }
-
-        return accountType;
+        return accountTypes.find(account_type => account_type.id === this.user.account_type).name;
       },
 
       alias() {

@@ -162,7 +162,7 @@ import account_types from '../constants/account_types';
               holderType: 'individual',
               product: 'payments',
               widgetToken: this.widgetToken,
-              publicKey: 'pk_test_NSx_XfEuRNn4xnA7MJ7DQQpje7cjghYA',
+              publicKey: `${process.env.VUE_APP_FINTOC_PUBLIC_KEY}`,
               webhookUrl: 'www.google.cl',
               onExit: () => {
                 this.$router.push({ path: `/${this.alias}` })

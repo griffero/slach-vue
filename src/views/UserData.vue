@@ -110,7 +110,6 @@
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
-import account_types from '../constants/account_types';
   export default {
 
     data () {
@@ -163,8 +162,11 @@ import account_types from '../constants/account_types';
               product: 'payments',
               widgetToken: this.widgetToken,
               publicKey: `${process.env.VUE_APP_FINTOC_PUBLIC_KEY}`,
-              webhookUrl: 'www.google.cl',
+              webhookUrl: `${process.env.VUE_APP_FINTOC_WEBHOOK_URL}`,
               onExit: () => {
+                this.$router.push({ path: `/${this.alias}` })
+              },
+              onSuccess: () => {
                 this.$router.push({ path: `/${this.alias}` })
               },
             })

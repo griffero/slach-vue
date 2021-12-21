@@ -11,6 +11,7 @@ import {
   faMobile, faExclamationCircle, faQuestion, faSearch, faShare,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import VueTypedJs from 'vue-typed-js'
 
 Vue.config.productionTip = false
 
@@ -23,7 +24,10 @@ library.add(
   faExclamationCircle, faQuestion, faSearch, faShare,
 );
 
+
+
 Vue.use(VueClipboard);
+Vue.use(VueTypedJs)
 Vue.use(Vuelidate);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

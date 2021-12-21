@@ -1,7 +1,16 @@
 <template>
   <div class="min-h-screen flex flex-col">
     <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-2">
-      <h1 class="mt-6 text-3xl font-bold"> Slach</h1>
+      <vue-typed-js
+          :showCursor="false"
+          :backSpeed="70"
+          :typeSpeed="50"
+          :smartBackspace="true"
+          :strings="['SRápido', 'SFácil', 'SCómodo', 'Slach']"
+        >
+        <h2 class="typing mt-6 text-3xl font-bold"></h2>
+      </vue-typed-js>
+
       <h3 class="my-6 text-center">Al registrarte obtendrás un enlace único que luego podrás compartir con quien quieras.</h3>
 
       <h2 class="m-2 font-bold text-xl">{{ this.fullName }}</h2>

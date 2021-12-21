@@ -4,122 +4,100 @@
 /* purgecss start ignore */
 @import "tailwindcss/base";
 
-@font-face {
-  font-family: "DM Sans";
-  font-weight: 300;
-  src: url(../fonts/DMSans-Regular.ttf)
-       format("truetype");
+.font-400 {
+  font-weight: normal;
 }
 
-@font-face {
-  font-family: "DM Sans";
-  font-weight: 300;
-  font-style: italic;
-  src: url(../fonts/DMSans-Italic.ttf)
-       format("truetype");
-}
-
-@font-face {
-  font-family: "DM Sans";
-  font-weight: 400;
-  src: url(../fonts/DMSans-Regular.ttf)
-       format("truetype");
-}
-
-@font-face {
-  font-family: "DM Sans";
+.font-500 {
   font-weight: 500;
-  src: url(../fonts/DMSans-Medium.ttf)
-       format("truetype");
 }
 
-@font-face {
-  font-family: "DM Sans";
-  font-weight: 500;
-  font-style: italic;
-  src: url(../fonts/DMSans-MediumItalic.ttf)
-       format("truetype");
-}
-
-@font-face {
-  font-family: "DM Sans";
+.font-600 {
   font-weight: 600;
-  src: url(../fonts/DMSans-Bold.ttf)
-       format("truetype");
 }
 
-@font-face {
-  font-family: "DM Sans";
-  font-weight: 600;
-  font-style: italic;
-  src: url(../fonts/DMSans-BoldItalic.ttf)
-       format("truetype");
+.font-700 {
+  font-weight: bold;
 }
 
-@font-face {
-  font-family: "DM Sans";
-  font-weight: 900;
-  src: url(../fonts/DMSans-Bold.ttf)
-       format("truetype");
+.font-XXS {
+/* Text XXS */
+font-family: Inter;
+font-style: normal;
+font-size: 10px;
+line-height: 16px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 300;
-  src: url(../fonts/DMMono-Light.ttf)
-       format("truetype");
+.font-XS {
+/* Text XS */
+font-family: Inter;
+font-style: normal;
+font-size: 12px;
+line-height: 16px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 300;
-  font-style: italic;
-  src: url(../fonts/DMMono-LightItalic.ttf)
-       format("truetype");
+.font-S {
+  /* Text S */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 20px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 400;
-  src: url(../fonts/DMMono-Regular.ttf)
-       format("truetype");
+.font-M {
+  /* Text M */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 500;
-  src: url(../fonts/DMMono-Medium.ttf)
-       format("truetype");
+.font-L {
+  /* Text L */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 30px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 500;
-  font-style: italic;
-  src: url(../fonts/DMMono-MediumItalic.ttf)
-       format("truetype");
+.font-heading-XS {
+  /* Text heading XS */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 22px;
+  line-height: 32px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 600;
-  src: url(../fonts/DMMono-Medium.ttf)
-       format("truetype");
+.font-heading-S {
+  /* Text heading S */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 34px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 600;
-  font-style: italic;
-  src: url(../fonts/DMMono-MediumItalic.ttf)
-       format("truetype");
+.font-heading-M {
+  /* Text heading M */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 28px;
+  line-height: 42px;
 }
 
-@font-face {
-  font-family: "DM Mono";
-  font-weight: 900;
-  src: url(../fonts/DMMono-Medium.ttf)
-       format("truetype");
+.font-heading-L {
+  /* Text heading L */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 36px;
+  line-height: 47px;
+}
+
+.font-heading-XL {
+  /* Text heading XL */
+  font-family: Inter;
+  font-style: normal;
+  font-size: 55px;
+  line-height: 68px;
 }
 
 @import "tailwindcss/components";

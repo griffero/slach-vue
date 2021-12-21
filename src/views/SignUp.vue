@@ -11,7 +11,7 @@
         <h2 class="typing mt-6 text-3xl font-bold"></h2>
       </vue-typed-js>
 
-      <h3 class="my-6 text-center">Al registrarte obtendrás un enlace único que luego podrás compartir con quien quieras.</h3>
+      <h3 class="my-6 text-center">Al registrarte obtendrás un link único que te servirá para recibir pagos de quién quieras.</h3>
 
       <h2 class="m-2 font-bold text-xl">{{ this.fullName }}</h2>
 

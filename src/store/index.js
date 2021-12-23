@@ -9,7 +9,8 @@ const initialState = {
   bank: '',
   account_number: '',
   account_type: '',
-  email: ''
+  email: '',
+  confirmed: '',
 };
 
 export default new Vuex.Store({

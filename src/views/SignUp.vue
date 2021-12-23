@@ -6,7 +6,7 @@
           :backSpeed="70"
           :typeSpeed="50"
           :smartBackspace="true"
-          :strings="['SRápido', 'SFácil', 'SCómodo', 'Slach ⚡']"
+          :strings="['Pagar SRápido', 'Pagar SFácil', 'Pagar SCómodo', 'Pagar Slach ⚡']"
         >
         <h2 class="typing mt-6 text-3xl font-bold"></h2>
       </vue-typed-js>

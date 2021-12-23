@@ -9,11 +9,11 @@
           <span class="font-semibold mr-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
         </div>
       </div>
-      <div v-if="!user.confirmed">
+      <div v-if="!confirmed">
         <h3 class="text-xl font-bold">Debes confirmar tu correo para poder usar Slach</h3>
       </div>
 
-      <div v-if="user.confirmed">
+      <div v-if="confirmed">
         <h1 class="text-xl md:text-3xl font-bold text-center mt-6">{{ user.name }}</h1>
         <h3 class="mt-4 mb-6 text-center">Mis datos bancarios son</h3>
         <div class="border rounded-lg py-4">
@@ -226,7 +226,8 @@
       return {
         user: {},
         widget: null,
-        widgetToken: null
+        widgetToken: null,
+        confirmed: true,
       };
     },
 
@@ -241,6 +242,7 @@
           this.$store.state.account_type = dataResponse.account_type;
           this.$store.state.email = dataResponse.email;
           this.$store.state.confirmed = dataResponse.confirmed;
+          this.confirmed = dataResponse.confirmed;
           this.user = this.$store.state;
       });
     },

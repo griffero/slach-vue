@@ -14,7 +14,7 @@
       </div>
 
       <div v-if="user.confirmed">
-        <h1 class="text-xl md:text-3xl font-bold text-center">{{ user.name }}</h1>
+        <h1 class="text-xl md:text-3xl font-bold text-center mt-6">{{ user.name }}</h1>
         <h3 class="mt-4 mb-6 text-center">Mis datos bancarios son</h3>
         <div class="border rounded-lg py-4">
           <table class="inline-block md:hidden mx-auto w-1/3 divide-y divide-gray-200">
@@ -196,6 +196,21 @@
       <button v-if="amount > 0" @click="openFintocWidget" class="mt-6 bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
         Pagar ${{ amount }}
       </button>
+
+      <div class="text-center my-6">
+        <h1 class="text-xl md:text-2xl">
+          ¿Acabas de conocer slach.cl ⚡?
+        </h1>
+        <h3 class="my-2">
+          ¡Te invitamos a <router-link class="text-blue-700 font-bold" to="/">registrar</router-link> también tus datos!
+        </h3>
+        <h1 class="text-xl md:text-2xl">
+          ¿Tus datos están incorrectos?
+        </h1>
+        <h3 class="my-2">
+          Simplemente <router-link class="text-blue-700 font-bold" to="/">vuelve a registrarte</router-link> con tu mismo email :)
+        </h3>
+      </div> 
     </div>
   </div>
 </template>

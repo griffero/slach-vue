@@ -27,9 +27,8 @@
                 placeholder="Rut"
                 id='rut-input'
                 v-rut:live
-                v-model.trim="rut"
+                v-model.trim.lazy="$v.rut.$model"
                 @change="getNameIfValidRut"
-                @blur='touchIfPresentElseReset($v.rut)'
             >
             <transition name="vertical-slide-fade">
               <p
@@ -93,9 +92,8 @@
                 type="text"
                 name="accountNumber"
                 placeholder="Número de cuenta"
-                v-model.trim="accountNumber"
+                v-model.trim.lazy="$v.accountNumber.$model"
                 id="account-number"
-                @blur='touchIfPresentElseReset($v.accountNumber)'
             >
             <transition name="vertical-slide-fade">
               <p
@@ -118,13 +116,13 @@
           <div class="w-full flex flex-col">
             <input
                 v-model="email"
+                v-model.trim.lazy="$v.email.$model"
                 class="appearance-none block w-full bg-grey-lighter text-grey-900
                       border border-grey-lighter rounded py-4 px-4 leading-tight
                       focus:shadow-sm"
                 type="email"
                 name="email"
                 placeholder="Email"
-                @blur='touchIfPresentElseReset($v.email)'
             >
             <transition name="vertical-slide-fade">
               <p
@@ -147,7 +145,7 @@
           Tu slach sera slach.cl/<span class="font-bold">{{alias}}</span>
           <div class="w-full flex flex-col">
             <input
-                v-model.trim="alias"
+                v-model.trim.lazy="$v.alias.$model"
                 class="appearance-none block w-full bg-grey-lighter text-grey-900
                       border border-grey-lighter rounded py-4 px-4 leading-tight
                       focus:shadow-sm"
@@ -258,14 +256,6 @@
     },
 
     methods: {
-      touchIfPresentElseReset(field) {
-        if (field.$model !== null) {
-          field.$touch();
-        } else {
-          field.$reset();
-        }
-      },
-
       getNameIfValidRut() {
         if(!this.$v.rut.$invalid) {
           this.getNameFromOracle()

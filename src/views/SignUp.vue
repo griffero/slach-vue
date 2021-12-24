@@ -175,11 +175,11 @@
 
         <div class='my-8'>
           <button
-            class="bg-transparent text-blue-700 font-semibold py-2 px-4 border border-blue-500 
+            class="bg-transparent text-indigo-700 font-semibold py-2 px-4 border border-indigo-500
                   rounded w-full"
             :class="{
               'hover:opacity-50': !$v.$invalid, 'cursor-not-allowed': $v.$invalid, 'opacity-50': $v.$invalid, 
-              'focus:outline-none': $v.$invalid, 'hover:bg-blue-500': !$v.$invalid, 'hover:text-white': !$v.$invalid,
+              'focus:outline-none': $v.$invalid, 'hover:bg-indigo-500': !$v.$invalid, 'hover:text-white': !$v.$invalid,
               'hover:border-transparent': !$v.$invalid
             }"
           >

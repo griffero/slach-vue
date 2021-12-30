@@ -292,7 +292,7 @@
       },
 
       async getUserFromAlias() {
-        return await axios.get(`${process.env.VUE_APP_SLACH_BACKEND}/users/${this.alias}`)
+        return await axios.get(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/users/${this.alias}`)
           .then((response) => {
             return response;
           })
@@ -306,7 +306,7 @@
           userAlias: this.alias,
           amount: this.amount
         }
-        return await axios.post(`${process.env.VUE_APP_SLACH_BACKEND}/payment_intents`, { data: paymentData })
+        return await axios.post(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/payment_intents`, { data: paymentData })
           .then((response) => {
             return response.data;
           });

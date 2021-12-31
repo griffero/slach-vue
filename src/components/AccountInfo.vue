@@ -1,5 +1,5 @@
 <template>
-  <div :class="containerClass" class="h-14 rounded px-4 mb-4 cursor-pointer">
+  <div :class="containerClass" class="h-14 rounded px-4 mb-4 cursor-pointer text-gray-900">
     <div class="flex flex-row justify-between w-full text-sm">
       <div>
         <span class="font-bold mr-2"> {{ humanizedAccountType(account.account_type) }} </span> 
@@ -54,7 +54,7 @@ export default {
 
 .cell-not-selected {
   background: #FFFFFF;
-  border: 1px solid #C5C4D3;
+  border: 1px solid rgba(229, 231, 235);
 }
 
 .account-cell {

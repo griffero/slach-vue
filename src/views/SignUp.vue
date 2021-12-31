@@ -130,11 +130,14 @@
         </div>
 
         <div v-if="onboardedWithFintoc">
-          <p class="mt-4">
+          <p class="mt-4" v-if="sortedAccounts.length > 1">
             Selecciona una cuenta
           </p>
-          <div class="border rounded mt-1 px-4 pt-4">
-            <div v-for="account in accounts" :key='account.id' @click="selectAccount(account)">
+          <div
+            class="mt-4"
+            :class="{ 'border rounded mt-1 px-4 pt-4' : sortedAccounts.length > 1 }"
+          >
+            <div v-for="account in sortedAccounts" :key='account.id' @click="selectAccount(account)">
               <AccountInfo :account="account" :containerClass="accountClass(account)"/>
             </div>
           </div>
@@ -296,7 +299,7 @@
           'checking_account', 'sight_account',
         ];
         const currency = 'CLP';
-        const filteredAccounts = this.accounts.filter((account) => accountTypes.includes(account.type) && account.currency === currency);
+        const filteredAccounts = this.accounts.filter((account) => accountTypes.includes(account.account_type) && account.currency === currency);
         const sortedAccounts = filteredAccounts.sort((a, b) => b.balance.available - a.balance.available);
         return sortedAccounts;
       },
@@ -325,7 +328,7 @@
       },
 
       accountClass(account) {
-        if (this.account == account) {
+        if (this.account == account && this.sortedAccounts.length > 1) {
           return 'account-cell cell-selected';
         }
         return 'account-cell cell-not-selected';
@@ -362,7 +365,6 @@
         }
         return await axios.post(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/session`)
           .then((response) => {
-            console.log(response.data.session)
             return response.data.session;
           })
       },

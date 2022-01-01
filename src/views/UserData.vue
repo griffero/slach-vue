@@ -10,12 +10,36 @@
         </div>
       </div>
       <div v-if="!confirmed">
-        <h3 class="text-xl font-bold text-gray-900">Debes confirmar tu correo para poder usar Slach</h3>
+        <h3 class="text-xl font-bold text-gray-900">
+          Debes confirmar tu correo para poder usar Slach
+        </h3>
       </div>
 
-      <div v-if="confirmed">
-        <h1 class="text-xl md:text-3xl font-bold text-center mt-6 text-gray-900">{{ user.name }}</h1>
-        <h3 class="mt-4 mb-6 text-center text-gray-900">Mis datos de transferencia son</h3>
+      <div v-if="confirmed" class="mx-auto items-center justify-center flex flex-col">
+        <h1 class="text-xl md:text-3xl font-bold text-center mt-6 text-gray-900">
+          {{ user.name }}
+        </h1>
+
+        <div class="flex flex-row justify-center h-12 w-full mt-8 mb-6">
+          <input
+            class="appearance-none block bg-grey-lighter text-grey-900
+                   border border-grey-lighter rounded py-4 px-4 leading-tight
+                   focus:shadow-sm text-gray-900 placeholder-gray-500 mr-10"
+            placeholder="Monto"
+            v-model.trim.lazy="$v.amount.$model"
+          >
+          <button @click="openFintocWidget" 
+                  class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold
+                         hover:text-white py-2 pl-4 pr-2 border border-indigo-500 hover:border-transparent rounded"
+          >
+            Paga acá ⚡
+          </button>
+        </div>
+
+        <p class="text-center">o</p>
+
+
+        <h3 class="mt-4 mb-6 text-center text-gray-900">Transfiere manualmente</h3>
         <div class="border rounded-lg py-4">
           <table class="inline-block md:hidden mx-auto divide-y divide-gray-200">
             <tbody class="bg-white divide-y divide-gray-200">
@@ -192,10 +216,6 @@
           </table>
         </div>
       </div>
-      
-      <button v-if="amount > 0" @click="openFintocWidget" class="mt-6 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded">
-        Pagar ${{ amount }}
-      </button>
 
       <div class="text-center my-6">
         <h1 class="text-xl md:text-2xl text-gray-900">
@@ -220,15 +240,26 @@
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
+  import { required, integer, email } from 'vuelidate/lib/validators';
   export default {
 
     data () {
       return {
+        amount: this.$route.params.amount,
         user: {},
         widget: null,
         widgetToken: null,
         confirmed: true,
       };
+    },
+
+    validations() {
+      return {
+        amount: {
+          required,
+          integer,
+        }
+      }
     },
 
     created() {
@@ -258,10 +289,6 @@
 
       alias() {
         return this.$route.params.alias;
-      },
-
-      amount() {
-        return this.$route.params.amount;
       },
 
       showConfirmationAlert() {
@@ -296,7 +323,7 @@
           .then((response) => {
             return response;
           })
-          .catch((error) => {
+          .catch(() => {
             this.$router.push({ path: '/' })
           });
       },

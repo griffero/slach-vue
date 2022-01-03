@@ -20,16 +20,16 @@
           {{ user.name }}
         </h1>
 
-        <div class="flex flex-row justify-center h-12 w-full mt-8 mb-6">
+        <div class="flex flex-row justify-center h-12 w-full mt-8 mb-6 px-2 sm:px-0">
           <input
-            class="appearance-none block bg-grey-lighter text-grey-900
+            class="appearance-none block bg-grey-lighter text-grey-900 w-3/5
                    border border-grey-lighter rounded py-4 px-4 leading-tight
-                   focus:shadow-sm text-gray-900 placeholder-gray-500 mr-10"
+                   focus:shadow-sm text-gray-900 placeholder-gray-500 mr-2 md:mr-10"
             placeholder="Monto"
             v-model.trim.lazy="$v.amount.$model"
           >
           <button @click="openFintocWidget" 
-                  class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold
+                  class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold w-2/5
                          hover:text-white py-2 pl-4 pr-2 border border-indigo-500 hover:border-transparent rounded"
           >
             Paga acá ⚡

@@ -16,11 +16,15 @@
       <button
         v-if="!onboardedWithFintoc"
         @click="openFintocWidget"
-        class="text-white font-semibold py-2 px-4 border border-indigo-500 bg-indigo-500
-               rounded w-full mb-4"
+        class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-white
+               w-full mb-4 flex items-center rounded-3xl hover:bg-gray-100"
       >
-        Registro automático con Fintoc
+        <img src="../assets/images/iso_fintoc.png" class="w-5 mr-2 sm:mr-4" />
+        <span> Obtén tus datos bancarios automáticamente</span>
       </button>
+
+      <p class="text-center">o</p>
+      <h3 class="mt-4 mb-4 text-center text-gray-900">Registrate manualmente</h3>
 
       <h2 class="m-2 font-bold text-xl text-gray-900 dark:text-white" v-if="this.fullName">
         {{ this.fullName }}
@@ -206,12 +210,12 @@
 
         <div class='my-12'>
           <button
-            class="text-white font-semibold py-2 px-4 border border-indigo-500 bg-indigo-500
-                   rounded w-full"
+            class="text-gray-400 font-semibold py-2 px-4 border border-gray-200 bg-gray-200
+                   rounded-3xl w-full"
             :class="{
-              'hover:opacity-50': !$v.$invalid, 'cursor-not-allowed': $v.$invalid, 'opacity-50': $v.$invalid, 
+              'hover:opacity-50': !$v.$invalid, 'cursor-not-allowed': $v.$invalid,
               'focus:outline-none': $v.$invalid, 'hover:bg-indigo-500': !$v.$invalid, 'hover:text-white': !$v.$invalid,
-              'hover:border-transparent': !$v.$invalid
+              'hover:border-transparent': !$v.$invalid, 'text-white': !$v.$invalid
             }"
           >
             Registrarte

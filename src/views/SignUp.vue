@@ -210,12 +210,12 @@
 
           <div class='my-12'>
             <button
-              class="text-gray-400 font-semibold py-2 px-4 border border-gray-200 bg-gray-200
-                    rounded-3xl w-full"
+              class="font-semibold py-2 px-4 border border-gray-200 bg-gray-200
+                     rounded-3xl w-full text-white"
               :class="{
-                'hover:opacity-50': !$v.$invalid, 'cursor-not-allowed': $v.$invalid,
-                'focus:outline-none': $v.$invalid, 'hover:bg-indigo-500': !$v.$invalid, 'hover:text-white': !$v.$invalid,
-                'hover:border-transparent': !$v.$invalid, 'text-white': !$v.$invalid
+                'cursor-not-allowed': $v.$invalid, 'focus:outline-none': $v.$invalid,
+                'bg-indigo-500': !$v.$invalid, 'border-transparent': !$v.$invalid,
+                'text-gray-400': $v.$invalid
               }"
             >
               Registrarte

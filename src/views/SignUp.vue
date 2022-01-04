@@ -253,7 +253,7 @@
 <script>
   import axios from 'axios';
   import { individualRut } from '../validators/rut_validator.js';
-  import { required, integer, email } from 'vuelidate/lib/validators';
+  import { minLength, required, integer, email } from 'vuelidate/lib/validators';
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
   import AccountInfo from '../components/AccountInfo.vue';
@@ -306,6 +306,7 @@
             }
             );
           },
+          minLength: minLength(3),
         },
         accountNumber: {
           required,

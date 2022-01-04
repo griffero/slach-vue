@@ -327,6 +327,10 @@
         return this.$route.query.confirmed == 'true';
       },
     },
+
+    metaInfo: {
+      description: `Paga de forma fácil sin tener que entrar a la app del banco. Pagar es Slach ⚡.`
+    },
     
     methods: {
       toggleShowInfo() {

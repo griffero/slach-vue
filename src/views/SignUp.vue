@@ -347,6 +347,10 @@
       AccountInfo,
     },
 
+    metaInfo: {
+      description: 'Recibe transferencias de forma fácil con Slach. Totalmente gratis.'
+    },
+
     methods: {
       checkAliasAvailable() {
         return new Promise ((resolve) => {

@@ -13,6 +13,7 @@ import {
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueTypedJs from 'vue-typed-js'
+import VueMeta from 'vue-meta'
 
 Vue.config.productionTip = false
 
@@ -25,6 +26,7 @@ library.add(
   faExclamationCircle, faQuestion, faSearch, faShare, faTwitter
 );
 
+Vue.use(VueMeta)
 Vue.use(VueClipboard);
 Vue.use(VueTypedJs)
 Vue.use(Vuelidate);

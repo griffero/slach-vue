@@ -310,15 +310,13 @@
 
     computed: {
       humanizedBankName() {
-        if (this.user.bank = '') { return; }
-
-        return banks.find(bank => bank.id === this.user.bank).name;
+        const bank = banks.find(bank => bank.id === this.user.bank);
+        return bank == undefined ? '' : bank.name;
       },
 
       humanizedAccountType() {
-        if (this.user.account_type = '') { return; }
-
-        return accountTypes.find(account_type => account_type.id === this.user.account_type).name;
+        const account = accountTypes.find(account_type => account_type.id === this.user.account_type);
+        return account == undefined ? '' : account.name;
       },
 
       alias() {

@@ -29,7 +29,7 @@
               placeholder="Monto"
               v-model.trim.lazy="$v.amount.$model"
             >
-            <button @click="openFintocWidget" 
+            <button @click="initiatePayment" 
                     class="font-semibold py-2 px-4 border border-indigo-500 bg-indigo-500
                           py-6 mb-4 flex items-center rounded-3xl text-white"
             >
@@ -278,6 +278,13 @@
           this.confirmed = dataResponse.confirmed;
           this.user = this.$store.state;
       });
+
+      if(this.$route.params.amount == this.amount && this.amount > 0) {
+        this.createPaymentIntent()
+          .then((response) => {
+            this.widgetToken = response.widget_token;
+          });
+      }
     },
 
     computed: {
@@ -300,24 +307,35 @@
     
     methods: {
       openFintocWidget() {
-        this.createPaymentIntent()
-          .then((response) => {
-            this.widgetToken = response.widget_token
-            this.widget = Fintoc.create({
-              holderType: 'individual',
-              product: 'payments',
-              widgetToken: this.widgetToken,
-              publicKey: `${process.env.VUE_APP_FINTOC_PUBLIC_KEY}`,
-              webhookUrl: `${process.env.VUE_APP_FINTOC_WEBHOOK_URL}`,
-              onExit: () => {
-                this.$router.push({ path: `/${this.alias}` })
-              },
-              onSuccess: () => {
-                this.$router.push({ path: `/${this.alias}` })
-              },
-            })
-            this.widget.open();
-        });
+        this.widget = Fintoc.create({
+          holderType: 'individual',
+          product: 'payments',
+          widgetToken: this.widgetToken,
+          publicKey: `${process.env.VUE_APP_FINTOC_PUBLIC_KEY}`,
+          webhookUrl: `${process.env.VUE_APP_FINTOC_WEBHOOK_URL}`,
+          onExit: () => {
+            this.$router.push({ path: `/${this.alias}` })
+          },
+          onSuccess: () => {
+            this.$router.push({ path: `/${this.alias}` })
+          },
+        })
+        this.widget.open();
+      },
+
+
+      initiatePayment() {
+        if (this.amount < 0) { return; }
+
+        if (this.$route.params.amount != this.amount) {
+          this.createPaymentIntent()
+            .then((response) => {
+              this.widgetToken = response.widget_token;
+              this.openFintocWidget();
+            });
+        } else {
+          this.openFintocWidget();
+        }
       },
 
       async getUserFromAlias() {

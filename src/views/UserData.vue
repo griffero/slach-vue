@@ -256,7 +256,7 @@
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
-  import { required, integer, email } from 'vuelidate/lib/validators';
+  import { required, integer, between, email } from 'vuelidate/lib/validators';
   import Info from '../views/Info.vue';
 
   export default {
@@ -276,6 +276,7 @@
         amount: {
           required,
           integer,
+          between: between(1, 5000000)
         }
       }
     },

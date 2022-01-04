@@ -25,8 +25,6 @@ library.add(
   faExclamationCircle, faQuestion, faSearch, faShare, faTwitter
 );
 
-
-
 Vue.use(VueClipboard);
 Vue.use(VueTypedJs)
 Vue.use(Vuelidate);

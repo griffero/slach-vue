@@ -80,6 +80,7 @@
               </select>
             </div>
           </div>
+
           <div v-if="!onboardedWithFintoc">
             <div class="h-16 mt-6">
               <div class="w-full flex flex-col">
@@ -141,7 +142,7 @@
               :class="{ 'border rounded mt-1 px-4 pt-4' : sortedAccounts.length > 1 }"
             >
               <div v-for="account in sortedAccounts" :key='account.id' @click="selectAccount(account)">
-                <AccountInfo :account="account" :containerClass="accountClass(account)"/>
+                <AccountInfo :account="account" :containerClass="accountClass(account)" :name='account'/>
               </div>
             </div>
           </div>
@@ -320,18 +321,18 @@
 
     computed: {
       sortedAccounts() {
-        const accountTypes = [
-          'checking_account', 'sight_account',
-        ];
+        if (this.accounts == null) {
+          return [];
+        }
+        const accountTypes = ['checking_account', 'sight_account'];
         const currency = 'CLP';
         const filteredAccounts = this.accounts.filter((account) => accountTypes.includes(account.account_type) && account.currency === currency);
+        if (filteredAccounts.length == 1) {
+          return filteredAccounts;
+        }
         const sortedAccounts = filteredAccounts.sort((a, b) => b.balance.available - a.balance.available);
         return sortedAccounts;
       },
-    },
-
-    components: {
-      AccountInfo,
     },
 
     created() {
@@ -343,6 +344,7 @@
 
     components: {
       Info,
+      AccountInfo,
     },
 
     methods: {

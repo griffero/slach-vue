@@ -42,7 +42,6 @@
                   type="text"
                   placeholder="Rut"
                   id='rut-input'
-                  v-rut:live
                   :disabled='onboardedWithFintoc'
                   v-model.trim.lazy="$v.rut.$model"
               >

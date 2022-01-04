@@ -46,7 +46,7 @@
           <p class="text-center">o</p>
 
 
-          <h3 class="mt-4 mb-6 text-center text-gray-900">Transfiere manualmente</h3>
+          <h3 class="mt-4 mb-6 text-center text-gray-900">Transfiere manualmente copiando los datos en tu banco</h3>
           <div class="border rounded-lg py-4">
             <table class="inline-block md:hidden mx-auto divide-y divide-gray-200">
               <tbody class="bg-white divide-y divide-gray-200">

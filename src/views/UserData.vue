@@ -22,13 +22,18 @@
           </h1>
 
           <div class="flex flex-row justify-center h-12 w-full mt-8 mb-6 px-2 sm:px-0">
-            <input
-              class="appearance-none block bg-grey-lighter text-grey-900 w-3/5
-                    border border-grey-lighter rounded py-4 px-4 leading-tight
-                    focus:shadow-sm text-gray-900 placeholder-gray-500 mr-2 md:mr-10"
-              placeholder="Monto"
-              v-model.trim.lazy="$v.amount.$model"
-            >
+            <div class="w-40 sm:w-48 mr-4 sm:mr-10">
+              <input
+                class="appearance-none block bg-grey-lighter text-grey-900 w-full
+                      border border-grey-lighter rounded py-4 px-4 leading-tight
+                      focus:shadow-sm text-gray-900 placeholder-gray-500 mr-2 md:mr-10"
+                placeholder="Monto"
+                v-model.trim.lazy="$v.amount.$model"
+              >
+              <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.amount.$error">
+                Ingresa un monto válido
+              </div>
+            </div>
             <button @click="initiatePayment" 
                     class="font-semibold py-2 px-4 border border-indigo-500 bg-indigo-500
                           py-6 mb-4 flex items-center rounded-3xl text-white"
@@ -325,7 +330,8 @@
 
 
       initiatePayment() {
-        if (this.amount < 0) { return; }
+        this.$v.amount.$touch();
+        if (this.amount == undefined || this.amount < 0) { return; }
 
         if (this.$route.params.amount != this.amount) {
           this.createPaymentIntent()

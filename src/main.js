@@ -10,6 +10,7 @@ import {
   faTimes, faBuilding, faUser, faDollarSign, faHandshake, faCheck, faKey, faUniversity,
   faMobile, faExclamationCircle, faQuestion, faSearch, faShare,
 } from '@fortawesome/free-solid-svg-icons';
+import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import VueTypedJs from 'vue-typed-js'
 
@@ -21,7 +22,7 @@ import store from './store';
 library.add(
   faEye, faEdit, faPlus, faTrash, faLock, faCog, faCopy, faBolt, faShieldAlt, faChevronLeft,
   faTimes, faBuilding, faUser, faDollarSign, faHandshake, faCheck, faKey, faUniversity, faMobile,
-  faExclamationCircle, faQuestion, faSearch, faShare,
+  faExclamationCircle, faQuestion, faSearch, faShare, faTwitter
 );
 
 

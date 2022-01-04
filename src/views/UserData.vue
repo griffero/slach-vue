@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <div class="min-h-screen flex flex-col bg-white">
+    <div class="min-h-screen flex flex-col bg-white" v-if="!showInfo">
       <div class="container mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div
           v-if="showConfirmationAlert" 
@@ -35,7 +35,7 @@
               </div>
             </div>
             <button @click="initiatePayment" 
-                    class="font-semibold py-2 px-4 border border-indigo-500 bg-indigo-500
+                    class="font-semibold px-4 border border-indigo-500 bg-indigo-500
                           py-6 mb-4 flex items-center rounded-3xl text-white"
             >
               <span>Paga acá ⚡</span>
@@ -225,6 +225,9 @@
         </div>
       </div>
     </div>
+    <div class="min-h-screen flex flex-col bg-white" v-if="showInfo">
+      <Info/>
+    </div>
     <div class="text-center mt-6 w-full bg-gray-100 py-10">
       <h1 class="text-xl md:text-2xl text-gray-900">
         ¿Nuevo en slach.cl ⚡?
@@ -232,11 +235,17 @@
       <h3 class="my-2">
         ¡Te invitamos a <router-link class="text-indigo-700 font-bold" to="/">registrar</router-link> también tus datos!
       </h3>
-      <h1 class="text-xl md:text-2xl text-gray-900">
-        ¿Tus datos están incorrectos?
+      <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
+        ¿Cómo funciona? ¿Para qué sirve?
       </h1>
       <h3 class="my-2 ">
-        <router-link class="text-indigo-700 font-bold" to="/">Vuelve a registrarte</router-link> con tu mismo email
+        Más info <span class="text-indigo-700 cursor-pointer font-bold" @click="toggleShowInfo"> acá </span>
+      </h3>
+      <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
+        ¿Tienes Feedback?
+      </h1>
+      <h3 class="my-2 ">
+        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>  
       </h3>
     </div>
   </div> 
@@ -248,10 +257,12 @@
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
   import { required, integer, email } from 'vuelidate/lib/validators';
-  export default {
+  import Info from '../views/Info.vue';
 
+  export default {
     data () {
       return {
+        showInfo: false,
         amount: this.$route.params.amount,
         user: {},
         widget: null,
@@ -292,6 +303,10 @@
       }
     },
 
+    components: {
+      Info,
+    },
+
     computed: {
       humanizedBankName() {
         return banks.find(bank => bank.id === this.user.bank).name;
@@ -311,6 +326,15 @@
     },
     
     methods: {
+      toggleShowInfo() {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
+        this.showInfo = !this.showInfo;
+      },
+
       openFintocWidget() {
         this.widget = Fintoc.create({
           holderType: 'individual',

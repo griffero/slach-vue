@@ -45,7 +45,6 @@
                   v-rut:live
                   :disabled='onboardedWithFintoc'
                   v-model.trim.lazy="$v.rut.$model"
-                  @change="getNameIfValidRut"
               >
               <transition name="vertical-slide-fade">
                 <p
@@ -188,7 +187,7 @@
                         focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-500 dark:placeholder-white"
                   :class="{ 'border-red-500 dark:border-red-400': $v.alias.$error }"
                   type="text"
-                  name="name"
+                  name="alias"
                   placeholder="Alias"
                   @change="trimSpaces"
               >
@@ -272,6 +271,7 @@
         fullName: null,
         accountNumber: null,
         alias: null,
+        aliasAvailable: true,
         accountTypes,
         accountType: accountTypes[0].id,
         banks,
@@ -291,20 +291,8 @@
         },
         alias: {
           required,
-          aliasAvailable(alias) {
-            return new Promise ((resolve) => {
-              axios.get(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/users/${alias}`)
-                .then(() => {
-                  resolve(false);
-                })
-                .catch((error) => {
-                  if(error.response.status === 404) {
-                    console.clear();
-                    resolve(true);
-                  }
-              })
-            }
-            );
+          aliasAvailable() {
+            return this.aliasAvailable;
           },
           minLength: minLength(3),
         },
@@ -317,6 +305,18 @@
           required,
         }
       };
+    },
+
+    watch: {
+      rut: function() {
+        if(!this.$v.rut.$invalid) {
+          this.getNameFromOracle().then((response) => { this.fullName = response });
+        }
+      },
+
+      alias: function() {
+        this.checkAliasAvailable().then((response) => { this.aliasAvailable = response; });
+      }
     },
 
     computed: {
@@ -347,6 +347,21 @@
     },
 
     methods: {
+      checkAliasAvailable() {
+        return new Promise ((resolve) => {
+          axios.get(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/users/${this.alias}`)
+            .then(() => {
+              resolve(false);
+            })
+            .catch((error) => {
+              if(error.response.status === 404) {
+                console.clear();
+                resolve(true);
+              }
+          })
+        });
+      },
+
       toggleShowInfo() {
         window.scroll({
           top: 0,
@@ -406,15 +421,6 @@
           .then((response) => {
             return response.data.session;
           })
-      },
-
-      getNameIfValidRut() {
-        if(!this.$v.rut.$invalid) {
-          this.getNameFromOracle()
-            .then((response) => {
-              this.fullName = response
-            })
-        }
       },
 
       trimSpaces() {

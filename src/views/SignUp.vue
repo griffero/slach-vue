@@ -239,6 +239,12 @@
         Más info <span class="text-indigo-700 cursor-pointer font-bold" @click="toggleShowInfo"> acá </span>
       </h3>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
+        ¿Donde está mi Slach?
+      </h1>
+      <h3 class="my-2 ">
+        Solo métete y comparte slach.cl/<span class="font-bold">tu_alias</span>
+      </h3>
+      <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
         ¿Tienes Feedback?
       </h1>
       <h3 class="my-2 ">

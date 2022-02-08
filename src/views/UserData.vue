@@ -6,7 +6,7 @@
           v-if="showConfirmationAlert" 
           class="text-center py-4 lg:px-4 mb-2">
           <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-            <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">New</span>
+            <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Alert</span>
             <span class="font-semibold mr-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
           </div>
         </div>
@@ -40,7 +40,13 @@
             >
               <span>Paga acá ⚡</span>
             </button>
+          </div>
 
+          <div class="pt-6 pb-4 text-center">
+            👉 Para que te paguen, envia este link a tus amigos 
+            <span class="font-bold hover:text-gray-700 cursor-pointer" v-clipboard:copy='linkToCopy'>
+              https://slach.cl/{{ alias }}/{{ linkAmount }} <font-awesome-icon class="ml-1" icon="copy"/> 
+            </span>
           </div>
 
           <p class="text-center">o</p>
@@ -222,6 +228,10 @@
               </tbody>
             </table>
           </div>
+          <button v-clipboard:copy='allBankData'
+                  class="mt-6 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+            <span class="mr-4 hidden md:block">Copiar todos los datos</span> <font-awesome-icon icon="copy"/> 
+          </button>
         </div>
       </div>
     </div>
@@ -309,6 +319,19 @@
     },
 
     computed: {
+      linkToCopy() {
+        return `https://slach.cl/${this.alias}/${this.linkAmount}`;
+      },
+
+      allBankData() {
+        return `Nombre: ${this.user.name}\nRut: ${this.user.rut}\nBanco: ${this.humanizedBankName}\nTipo de cuenta: ${this.humanizedAccountType}\nNúmero de cuenta: ${this.user.account_number}\nEmail: ${this.user.email}`;
+      },
+
+      linkAmount() {
+        const isInvalidAmount = this.amount == null || this.amount == undefined || this.amount < 1
+        return isInvalidAmount == true ? 'monto_a_transferir' : this.amount;
+      },
+
       humanizedBankName() {
         const bank = banks.find(bank => bank.id === this.user.bank);
         return bank == undefined ? '' : bank.name;

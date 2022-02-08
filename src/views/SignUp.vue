@@ -18,10 +18,10 @@
           v-if="!onboardedWithFintoc"
           @click="openFintocWidget"
           class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-white
-                w-full mb-4 flex items-center rounded-3xl hover:bg-gray-100"
+                 w-full mb-4 flex rounded-3xl hover:bg-gray-100"
         >
-          <img src="../assets/images/iso_fintoc.png" class="w-5 mr-2 sm:mr-4" />
-          <span> Obtén tus datos bancarios automáticamente</span>
+          <img src="../assets/images/iso_fintoc.png" class="w-5" />
+          <span class="w-full">Registrate automáticamente</span>
         </button>
 
         <p class="text-center">o</p>
@@ -255,6 +255,7 @@
 </template>
 
 <script src="https://js.fintoc.com/v1/"></script>
+
 <script>
   import axios from 'axios';
   import { individualRut } from '../validators/rut_validator.js';

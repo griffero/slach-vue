@@ -1,237 +1,273 @@
 <template>
   <div class="w-full">
-    <div class="min-h-screen flex flex-col bg-white" v-if="!showInfo">
-      <div class="container mx-auto flex-1 flex flex-col items-center justify-center px-2">
-        <div
-          v-if="showConfirmationAlert" 
-          class="text-center py-4 lg:px-4 mb-2">
-          <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-            <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Alert</span>
-            <span class="font-semibold mr-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
-          </div>
-        </div>
-        <div v-if="!confirmed">
+    <div class="min-h-screen flex flex-col" v-if="!showInfo">
+      <div class="w-full">
+        <div v-if="!confirmed" class="min-h-screen mx-auto flex-1 flex flex-col items-center justify-center px-2">
           <h3 class="text-xl font-bold text-gray-900">
             Debes confirmar tu correo para poder usar Slach
           </h3>
         </div>
 
-        <div v-if="confirmed" class="mx-auto items-center justify-center flex flex-col">
-          <h1 class="text-xl md:text-3xl font-bold text-center mt-6 text-gray-900">
-            {{ user.name }}
-          </h1>
+        <div v-if="confirmed" class="w-full">
+          <div
+            v-if="showConfirmationAlert"
+            class="text-center pt-2 lg:px-4 bg-slate">
+            <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
+              <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Alert</span>
+              <span class="font-semibold mr-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
+            </div>
+          </div>
 
-          <div class="flex flex-row justify-center h-12 w-full mt-8 mb-6 px-2 sm:px-0">
-            <div class="w-40 sm:w-48 mr-4 sm:mr-10">
-              <input
-                class="appearance-none block bg-grey-lighter text-grey-900 w-full
-                      border border-grey-lighter rounded py-4 px-4 leading-tight
-                      focus:shadow-sm text-gray-900 placeholder-gray-500 mr-2 md:mr-10"
-                placeholder="Monto"
-                v-model.trim.lazy="$v.amount.$model"
-              >
-              <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.amount.$error">
-                Ingresa un monto válido
+          <div class="bg-slate pt-6 pb-8 flex-1 px-2 mx-auto items-center justify-center flex flex-col w-full">
+            <p class="text-white" v-if='!userView'>Págale a</p>
+            <h1 class="text-xl md:text-3xl mt-2 font-bold text-center text-white">
+              {{ user.name }}
+            </h1>
+
+            <div class="flex flex-row justify-start sm:justify-center h-12 mt-8 px-2 sm:px-0">
+              <div class="flex">
+                <div class="border h-10 y-10 rounded-full mr-4 my-auto" v-if='userView'>
+                  <div class="relative w-10 h-10 rounded-full flex justify-center items-center text-center shadow-xl">
+                    <span class="absolute text-8xl left-0 top-0"></span>
+                    <font-awesome-icon class="text-white" icon="1"/>
+                  </div>
+                </div>
+
+                <p v-if="userView" class="text-white my-auto mr-4">Escribe</p>
+
+                <div class="w-40 sm:w-40 mr-4 sm:mr-8">
+                  <input
+                    class="appearance-none block bg-grey-lighter text-grey-900 w-full h-12
+                            border border-grey-lighter rounded py-4 px-4 leading-tight bg-slate
+                            focus:shadow-sm text-white placeholder-gray-400 mr-2 md:mr-6"
+                    placeholder="monto a cobrar"
+                    v-model.trim.lazy="$v.amount.$model"
+                  >
+                  <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.amount.$error">
+                    Ingresa un monto válido
+                  </div>
+                </div>
+                <button @click="initiatePayment"
+                        class="font-semibold px-4 border border-indigo-700 bg-indigo-700 hover:bg-indigo-500 hover:border-indigo-500
+                                py-5 mb-4 flex items-center rounded text-white h-12"
+                >
+                  <span>Pagar</span>
+                </button>
               </div>
             </div>
-            <button @click="initiatePayment" 
-                    class="font-semibold px-4 border border-indigo-500 bg-indigo-500
-                          py-6 mb-4 flex items-center rounded-3xl text-white"
-            >
-              <span>Paga acá ⚡</span>
-            </button>
+
+            <div class="flex flex-row justify-start sm:justify-center mt-8 px-2 sm:px-0" v-if='userView'>
+              <div class="flex">
+                <div class="border h-10 y-10 rounded-full mr-4 my-auto">
+                  <div class="relative w-10 h-10 rounded-full flex justify-center items-center text-center shadow-xl">
+                    <span class="absolute text-8xl left-0 top-0"></span>
+                    <font-awesome-icon class="text-white" icon="2"/>
+                  </div>
+                </div>
+              </div>
+              <div class="flex">
+                <div class="text-center text-white" v-if='userView'>
+                  Para que te paguen, mándale este link a tus amigos 👇
+                  <br>
+                  <span class="font-bold hover:text-gray-400 cursor-pointer" v-clipboard:copy='linkToCopy'>
+                    https://slach.cl/{{ alias }}/<span class="text-indigo-500">{{ linkAmount }}</span> <font-awesome-icon class="ml-1" icon="copy"/>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div class="pt-6 pb-4 text-center">
-            👉 Para que te paguen, envia este link a tus amigos 
-            <span class="font-bold hover:text-gray-700 cursor-pointer" v-clipboard:copy='linkToCopy'>
-              https://slach.cl/{{ alias }}/{{ linkAmount }} <font-awesome-icon class="ml-1" icon="copy"/> 
-            </span>
+          <p v-if='!userView' class="text-center mt-4">o</p>
+
+          <div class="container flex-1 px-2 mx-auto items-center justify-center flex flex-col">
+            <h3 class="mt-6 mb-6 text-center text-gray-900" v-if='userView'>
+              Acá están tus datos bancarios
+            </h3>
+            <h3 class="mt-4 mb-6 text-center text-gray-900" v-if='!userView'>
+              Transfierelé manualmente copiando los datos en tu banco 🛏️💤
+            </h3>
+            <div class="border rounded-lg py-4">
+              <table class="inline-block md:hidden mx-auto divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 pb-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Nombre completo:</div>
+                      <div class="text-sm text-gray-900 font-bold">{{ user.name }}</div>
+                    </td>
+                    <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Rut:</div>
+                      <div class="text-sm text-gray-900  font-bold">{{ user.rut | rutFilter }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.rut'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Banco:</div>
+                      <div class="text-sm text-gray-900  font-bold">{{ humanizedBankName }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.bank'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Tipo:</div>
+                      <div class="text-sm text-gray-900  font-bold">{{ humanizedAccountType }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.account_type'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Numero:</div>
+                      <div class="text-sm text-gray-900  font-bold">{{ user.account_number }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.account_number'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 pt-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Email:</div>
+                      <div class="text-sm text-gray-900  font-bold">{{ user.email }}</div>
+                    </td>
+                    <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.email'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="hidden md:inline-block mx-auto divide-y divide-gray-200">
+                <tbody class="divide-y divide-gray-200">
+                  <tr>
+                    <td class="px-6 pb-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Nombre completo:</div>
+                    </td>
+                    <td class="px-6 pb-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900 font-bold">{{ user.name }}</div>
+                    </td>
+                    <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Rut:</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900  font-bold">{{ user.rut | rutFilter }}</div>
+                    </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.rut'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Banco:</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900  font-bold">{{ humanizedBankName }}</div>
+                    </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.bank'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Tipo:</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900  font-bold">{{ humanizedAccountType }}</div>
+                    </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.account_type'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Numero:</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900  font-bold">{{ user.account_number }}</div>
+                    </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.account_number'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td class="px-6 pt-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900">Email:</div>
+                    </td>
+                    <td class="px-6 pt-4 whitespace-nowrap">
+                      <div class="text-sm text-gray-900  font-bold">{{ user.email }}</div>
+                    </td>
+                    <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
+                      <button v-clipboard:copy='user.email'
+                              class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="text-center">
+              <button v-clipboard:copy='allBankData'
+                      class="mt-6 bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                <span class="mr-4">Copiar todos los datos</span> <font-awesome-icon icon="copy"/> 
+              </button>
+            </div>
           </div>
-
-          <p class="text-center">o</p>
-
-
-          <h3 class="mt-4 mb-6 text-center text-gray-900">Transfiere manualmente copiando los datos en tu banco</h3>
-          <div class="border rounded-lg py-4">
-            <table class="inline-block md:hidden mx-auto divide-y divide-gray-200">
-              <tbody class="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td class="px-6 pb-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Nombre completo:</div>
-                    <div class="text-sm text-gray-900 font-bold">{{ user.name }}</div>
-                  </td>
-                  <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Rut:</div>
-                    <div class="text-sm text-gray-900  font-bold">{{ user.rut | rutFilter }}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.rut'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Banco:</div>
-                    <div class="text-sm text-gray-900  font-bold">{{ humanizedBankName }}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.bank'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Tipo:</div>
-                    <div class="text-sm text-gray-900  font-bold">{{ humanizedAccountType }}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.account_type'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Numero:</div>
-                    <div class="text-sm text-gray-900  font-bold">{{ user.account_number }}</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.account_number'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 pt-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Email:</div>
-                    <div class="text-sm text-gray-900  font-bold">{{ user.email }}</div>
-                  </td>
-                  <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.email'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <table class="hidden md:inline-block mx-auto divide-y divide-gray-200">
-              <tbody class="divide-y divide-gray-200">
-                <tr>
-                  <td class="px-6 pb-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Nombre completo:</div>
-                  </td>
-                  <td class="px-6 pb-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900 font-bold">{{ user.name }}</div>
-                  </td>
-                  <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Rut:</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900  font-bold">{{ user.rut | rutFilter }}</div>
-                  </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.rut'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Banco:</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900  font-bold">{{ humanizedBankName }}</div>
-                  </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.bank'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Tipo:</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900  font-bold">{{ humanizedAccountType }}</div>
-                  </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.account_type'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Numero:</div>
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900  font-bold">{{ user.account_number }}</div>
-                  </td>
-                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.account_number'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td class="px-6 pt-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">Email:</div>
-                  </td>
-                  <td class="px-6 pt-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900  font-bold">{{ user.email }}</div>
-                  </td>
-                  <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button v-clipboard:copy='user.email'
-                            class="bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                      <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <button v-clipboard:copy='allBankData'
-                  class="mt-6 bg-transparent hover:bg-indigo-500 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-            <span class="mr-4 hidden md:block">Copiar todos los datos</span> <font-awesome-icon icon="copy"/> 
-          </button>
         </div>
       </div>
     </div>
@@ -260,6 +296,13 @@
     </div>
   </div> 
 </template>
+
+<style>
+  .bg-slate {
+    background-color: rgb(15, 23, 42);
+  }
+
+</style>
 
 <script src="https://js.fintoc.com/v1/"></script>
 <script>
@@ -319,6 +362,10 @@
     },
 
     computed: {
+      userView() {
+        return this.$route.params.amount == null;
+      },
+
       linkToCopy() {
         return `https://slach.cl/${this.alias}/${this.linkAmount}`;
       },

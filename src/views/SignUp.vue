@@ -454,7 +454,12 @@
         axios.post(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/users`, formData)
           .then(() => {
             this.submited = true;
-            this.$router.push({ path: `/${this.alias}` })
+            this.$router.push({ path: `/${this.alias}` });
+            window.scroll({
+              top: 0,
+              left: 0,
+              behavior: 'smooth'
+            });
           })
           .catch((error) => {
             this.error = true;

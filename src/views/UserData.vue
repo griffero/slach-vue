@@ -11,35 +11,35 @@
         <div v-if="confirmed" class="w-full">
           <div
             v-if="showConfirmationAlert"
-            class="text-center pt-2 lg:px-4 bg-slate">
+            class="text-center pt-2 lg:px-4">
             <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
               <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Alert</span>
               <span class="font-semibold mr-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
             </div>
           </div>
 
-          <div class="bg-slate pt-6 pb-8 flex-1 px-2 mx-auto items-center justify-center flex flex-col w-full">
-            <p class="text-white" v-if='!userView'>Págale a</p>
-            <h1 class="text-xl md:text-3xl mt-2 font-bold text-center text-white">
+          <div class="pt-6 pb-8 flex-1 px-2 mx-auto items-center justify-center flex flex-col w-full">
+            <p class="text-gray-900" v-if='!userView'>Págale a</p>
+            <h1 class="text-xl md:text-3xl mt-2 font-bold text-center text-gray-900">
               {{ user.name }}
             </h1>
 
             <div class="flex flex-row justify-start sm:justify-center h-12 mt-8 px-2 sm:px-0">
               <div class="flex">
                 <div class="border h-10 y-10 rounded-full mr-4 my-auto" v-if='userView'>
-                  <div class="relative w-10 h-10 rounded-full flex justify-center items-center text-center shadow-xl">
+                  <div class="relative w-10 h-10 rounded-full flex justify-center items-center text-center">
                     <span class="absolute text-8xl left-0 top-0"></span>
-                    <font-awesome-icon class="text-white" icon="1"/>
+                    <font-awesome-icon class="text-gray-900" icon="1"/>
                   </div>
                 </div>
 
-                <p v-if="userView" class="text-white my-auto mr-4">Escribe</p>
+                <p v-if="userView" class="text-gray-900 my-auto mr-4">Escribe</p>
 
                 <div class="w-40 sm:w-40 mr-4 sm:mr-8">
                   <input
                     class="appearance-none block bg-grey-lighter text-grey-900 w-full h-12
-                            border border-grey-lighter rounded py-4 px-4 leading-tight bg-slate
-                            focus:shadow-sm text-white placeholder-gray-400 mr-2 md:mr-6"
+                            border border-grey-lighter rounded py-4 px-4 leading-tight
+                            focus:shadow-sm text-gray-900 placeholder-gray-400 mr-2 md:mr-6"
                     placeholder="monto a cobrar"
                     v-model.trim.lazy="$v.amount.$model"
                   >
@@ -59,14 +59,14 @@
             <div class="flex flex-row justify-start sm:justify-center mt-8 px-2 sm:px-0" v-if='userView'>
               <div class="flex">
                 <div class="border h-10 y-10 rounded-full mr-4 my-auto">
-                  <div class="relative w-10 h-10 rounded-full flex justify-center items-center text-center shadow-xl">
+                  <div class="relative w-10 h-10 rounded-full flex justify-center items-center text-center">
                     <span class="absolute text-8xl left-0 top-0"></span>
-                    <font-awesome-icon class="text-white" icon="2"/>
+                    <font-awesome-icon class="text-gray-900" icon="2"/>
                   </div>
                 </div>
               </div>
               <div class="flex">
-                <div class="text-center text-white" v-if='userView'>
+                <div class="text-center text-gray-900" v-if='userView'>
                   Para que te paguen, mándale este link a tus amigos 👇
                   <br>
                   <span class="font-bold hover:text-gray-400 cursor-pointer" v-clipboard:copy='linkToCopy'>
@@ -77,10 +77,10 @@
             </div>
           </div>
 
-          <p v-if='!userView' class="text-center mt-4">o</p>
+          <p v-if='!userView' class="text-center">o</p>
 
           <div class="container flex-1 px-2 mx-auto items-center justify-center flex flex-col">
-            <h3 class="mt-6 mb-6 text-center text-gray-900" v-if='userView'>
+            <h3 class="mb-6 text-center text-gray-900" v-if='userView'>
               Acá están tus datos bancarios
             </h3>
             <h3 class="mt-4 mb-6 text-center text-gray-900" v-if='!userView'>

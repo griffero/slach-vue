@@ -2,7 +2,7 @@ module.exports = {
   darkMode: 'class',
   theme: {
     fontFamily: {
-      body: 'DMMono',
+      body: 'Inter',
     },
     extend: {
       inset: {

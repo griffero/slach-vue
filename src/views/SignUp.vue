@@ -1,37 +1,37 @@
 <template>
   <div class="w-full">
     <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900" v-if="!showInfo">
-      <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center px-2">
-        <vue-typed-js
-            :showCursor="false"
-            :backSpeed="70"
-            :typeSpeed="50"
-            :smartBackspace="true"
-            :strings="['Pagar SRápido', 'Pagar SFácil', 'Pagar SCómodo', 'Pagar Slach ⚡']"
-          >
-          <h2 class="typing mt-6 text-3xl font-bold text-gray-900 dark:text-white"></h2>
-        </vue-typed-js>
+      <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-start px-2">
+        <h2 class="mt-12 text-5xl font-bold text-gray-900 dark:text-white">⚡ Slach ⚡</h2>
 
-        <h3 class="my-6 text-center text-gray-900 dark:text-white">Al registrarte obtendrás un link único que te servirá para recibir pagos de quién quieras.</h3>
+        <h3 class="my-12 text-center text-lg text-gray-800 dark:text-white">Al registrarte obtendrás un link único que te servirá para recibir pagos de quién quieras.</h3>
 
         <button
           v-if="!onboardedWithFintoc"
           @click="openFintocWidget"
-          class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-white
-                 w-full mb-4 flex rounded-3xl hover:bg-gray-100"
+          class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-yellow-300
+                 w-full mb-4 flex rounded-md hover:bg-yellow-200"
         >
-          <img src="../assets/images/iso_fintoc.png" class="w-5" />
           <span class="w-full">Registrate automáticamente</span>
         </button>
 
-        <p class="text-center">o</p>
-        <h3 class="mt-4 mb-4 text-center text-gray-900">Registrate manualmente</h3>
+        <p class="text-center mb-4" v-if="!onboardedWithFintoc">o</p>
 
-        <h2 class="m-2 font-bold text-xl text-gray-900 dark:text-white" v-if="this.fullName">
-          {{ this.fullName }}
-        </h2>
+        <button
+          @click="toggleManualSignUp"
+          v-if="!onboardedWithFintoc"
+          class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-gray-300
+                 w-full mb-4 flex rounded-md hover:bg-gray-200"
+        >
+          <span class="w-full">Registrate manualmente</span>
+        </button>
 
-        <form @submit.prevent="onSubmit" method="POST" class="w-full mx-auto">
+        <transition name="fade">
+          <form @submit.prevent="onSubmit" method="POST" class="w-full mx-auto"  v-if="manualSignUp || onboardedWithFintoc">
+
+          <h2 class="text-center mt-4 mb-2 font-bold text-xl text-gray-900 dark:text-white" v-if="this.fullName">
+            {{ this.fullName }}
+          </h2>
           <div class="h-16 mt-6">
             <div class="w-full flex flex-col">
               <input
@@ -70,7 +70,7 @@
                 placeholder="Selecciona un banco"
                 class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
                       border border-grey-lighter rounded py-4 px-4 leading-tight
-                      focus:shadow-s text-gray-900 placeholder-gray-500"
+                      focus:shadow-s text-gray-900 bg-white"
               >
                 <option v-for="_bank in banks" 
                         :key="_bank.id"
@@ -90,7 +90,7 @@
                   placeholder="Selecciona un tipo de cuenta"
                     class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
                           border border-grey-lighter rounded py-4 px-4 leading-tight
-                          focus:shadow-s text-gray-900 placeholder-gray-500"
+                          focus:shadow-s text-gray-900 bg-white"
                 >
                   <option v-for="_accountType in accountTypes"
                           :value="_accountType.id"
@@ -210,28 +210,32 @@
 
           <div class='my-12'>
             <button
-              class="font-semibold py-2 px-4 border border-gray-200 bg-gray-200
-                     rounded-3xl w-full text-white"
+              class="font-semibold py-2 px-4 border rounded-md w-full text-gray-900 bg-yellow-300 opacity-50"
               :class="{
                 'cursor-not-allowed': $v.$invalid, 'focus:outline-none': $v.$invalid,
-                'bg-indigo-500': !$v.$invalid, 'border-transparent': !$v.$invalid,
+                'bg-yellow-300': !$v.$invalid, 'border-transparent': !$v.$invalid,
+                'hover:bg-yellow-200': !$v.$invalid, 'opacity-100': !$v.$invalid,
                 'text-gray-400': $v.$invalid
               }"
             >
-              Registrarte
+              Registrarme
             </button>
           </div>
 
           <h1 v-if='error' class="mt-6 text-red-600">
             Oh no 😢 {{ errorMessage }}.
           </h1>
-        </form>
+          </form>
+        </transition>
       </div>
     </div>
     <div class="min-h-screen flex flex-col bg-white" v-if="showInfo">
       <Info/>
     </div>
     <div class="text-center mt-6 w-full bg-gray-100 py-10">
+      <h1 class="mt-6 text-3xl md:text-5xl text-gray-900 font-bold">
+        FAQ's
+      </h1>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
         ¿Cómo funciona? ¿Para qué sirve?
       </h1>
@@ -239,10 +243,10 @@
         Más info <span class="text-indigo-700 cursor-pointer font-bold" @click="toggleShowInfo"> acá </span>
       </h3>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
-        ¿Donde está mi Slach?
+        ¿Cómo se le paga a alguien que <span class="font-bold">tiene</span> Slach?
       </h1>
       <h3 class="my-2 ">
-        Solo métete y comparte slach.cl/<span class="font-bold">tu_alias</span>
+        Solo métete slach.cl/<span class="font-bold">tu_alias</span>
       </h3>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
         ¿Tienes Feedback?
@@ -275,6 +279,7 @@
         widget: null,
         rut: null,
         email: null,
+        manualSignUp: false,
         fullName: null,
         accountNumber: null,
         alias: null,
@@ -323,6 +328,10 @@
 
       alias: function() {
         this.checkAliasAvailable().then((response) => { this.aliasAvailable = response; });
+      },
+
+      alias: function() {
+        this.alias = this.alias.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
       }
     },
 
@@ -383,6 +392,10 @@
         this.showInfo = !this.showInfo;
       },
 
+      toggleManualSignUp() {
+        this.manualSignUp = !this.manualSignUp;
+      },
+
       selectAccount(account) {
         this.account = account;
         this.accountType = account.account_type;
@@ -416,7 +429,7 @@
                     this.rut = response.data.rut;
                     this.bank = response.data.bank;
                     this.accounts = response.data.accounts;
-                    this.selectAccount(this.accounts[0]);
+                    this.selectAccount(this.sortedAccounts[0]);
                     this.onboardedWithFintoc = true;
                   })
               },
@@ -443,10 +456,11 @@
         if (this.$v.$invalid) { return; }
         
         const cleanRut = this.rut.replace(/[-.]/g, '');
+        const cleanAlias = this.alias.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const formData = {
           rut: cleanRut,
           accountNumber: this.accountNumber,
-          alias: this.alias,
+          alias: cleanAlias,
           accountType: this.accountType,
           bank: this.bank,
           email: this.email
@@ -477,3 +491,12 @@
     } 
   }
 </script>
+
+<style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+</style>

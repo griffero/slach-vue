@@ -55,7 +55,7 @@
                     class="font-semibold px-4 border border-indigo-700 bg-indigo-700 hover:bg-indigo-500 hover:border-indigo-500
                            mt-12 py-2 mb-4 rounded-md text-white h-12 w-full text-center"
             >
-              Pagar manualmente 🐢
+              Ver datos para pagar manualmente 🐢
             </button>
           </div>
 

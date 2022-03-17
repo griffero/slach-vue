@@ -12,7 +12,7 @@
           class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-yellow-300
                  w-full mb-4 flex rounded-md hover:bg-yellow-200"
         >
-          <span class="w-full">Registrate automáticamente</span>
+          <span class="w-full">Regístrate automáticamente</span>
         </button>
 
         <p class="text-center mb-4" v-if="!onboardedWithFintoc">o</p>
@@ -23,7 +23,7 @@
           class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-gray-300
                  w-full mb-4 flex rounded-md hover:bg-gray-200"
         >
-          <span class="w-full">Registrate manualmente</span>
+          <span class="w-full">Regístrate manualmente</span>
         </button>
 
         <transition name="fade">
@@ -187,8 +187,8 @@
                         focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-500 dark:placeholder-white"
                   :class="{ 'border-red-500 dark:border-red-400': $v.alias.$error }"
                   type="text"
-                  name="alias"
-                  placeholder="Alias"
+                  name="Usuario"
+                  placeholder="Usuario"
                   @change="trimSpaces"
               >
               <transition name="vertical-slide-fade">
@@ -196,7 +196,7 @@
                   class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
                   v-if="alias !== null"
                 >
-                  Alias
+                  Usuario
                 </p>
               </transition>
             </div>
@@ -204,7 +204,7 @@
               Este campo es obligatorio
             </div>
             <div class='dark:text-red-400 text-red-700 text-xs' v-if="!(alias == null || alias == '') && !$v.alias.aliasAvailable">
-              Este alias está tomado 👮🏽‍♀
+              Este usuario está tomado 👮🏽‍♀
             </div>
           </div>
 
@@ -246,7 +246,7 @@
         ¿Cómo se le paga a alguien que <span class="font-bold">tiene</span> Slach?
       </h1>
       <h3 class="my-2 ">
-        Solo métete slach.cl/<span class="font-bold">tu_alias</span>
+        Solo métete slach.cl/<span class="font-bold">usuario</span>
       </h3>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
         ¿Tienes Feedback?

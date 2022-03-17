@@ -20,7 +20,7 @@
                 </p>
                 <br>
                 <p>
-                  Ahora con Slach, en lugar de compartir tus datos bancarios, solo debes mandar <span class="font-bold">slach.cl/tu_alias</span>. Con eso la persona recibirá todos tus datos bancarios. Además, si quieres que la persona pague por ahí, solo debes agregarle un slach con el monto de pago. Por ejemplo <span class="font-bold">slach.cl/tu_alias/10000</span> para cobrar $10.000 CLP.
+                  Ahora con Slach, en lugar de compartir tus datos bancarios, solo debes mandar <span class="font-bold">slach.cl/tu_usuario</span>. Con eso la persona recibirá todos tus datos bancarios. Además, si quieres que la persona pague por ahí, solo debes agregarle un slach con el monto de pago. Por ejemplo <span class="font-bold">slach.cl/tu_usuario/10000</span> para cobrar $10.000 CLP.
                 </p>
               </dd>
 
@@ -84,7 +84,7 @@
               </dt>
               <dd class="mb-16">
                 <p>
-                  👉 Registrate <a class="text-indigo-700 font-bold" href="/">acá</a>
+                  👉 Regístrate <a class="text-indigo-700 font-bold" href="/">acá</a>
                 </p>
               </dd>
           </dl>

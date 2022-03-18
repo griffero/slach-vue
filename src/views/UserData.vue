@@ -74,7 +74,7 @@
                       </td>
                       <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -87,7 +87,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.rut'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -100,7 +100,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.bank'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -113,7 +113,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.account_type'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -126,7 +126,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.account_number'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -139,7 +139,7 @@
                       <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.email'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -149,11 +149,25 @@
               <div class="text-center">
                 <button v-clipboard:copy='allBankData'
                         class="mt-6 bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                  <span class="mr-4">Copiar todos los datos</span> <font-awesome-icon icon="copy"/> 
+                  <span class="mr-4">Copiar todos los datos</span> <font-awesome-icon icon="copy"/>
                 </button>
               </div>
             </div>
           </transition>
+
+          <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+            <button
+              @click="() => $router.push({ path: '/' })"
+              class="
+                mt-10 py-2 mb-4 px-4 border h-12 w-full rounded-md
+                font-semibold text-center text-gray-800
+                border-yellow-300 bg-yellow-300
+                hover:bg-yellow-200 hover:border-yellow-200
+              "
+            >
+              ¿Todavía no tienes Slach? Créalo acá
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -177,10 +191,10 @@
         ¿Tienes Feedback?
       </h1>
       <h3 class="my-2 ">
-        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>  
+        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>
       </h3>
     </div>
-  </div> 
+  </div>
 </template>
 
 <style>
@@ -285,7 +299,7 @@
     metaInfo: {
       description: `Paga de forma fácil sin tener que entrar a la app del banco. Pagar es Slach ⚡.`
     },
-    
+
     methods: {
       toggleManualTransfer() {
         this.manualTransfer = !this.manualTransfer;

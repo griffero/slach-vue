@@ -31,7 +31,7 @@
               </dt>
               <dd class="mb-16">
                 <p>
-                  Las personas en general no se saben sus números de cuenta y datos bancarios. Para facilitar el registro, puedes obtener estos datos de forma automática con Fintoc lo que simplifica la inscripción en Slach.    
+                  Las personas en general no se saben sus números de cuenta y datos bancarios. Para facilitar el registro, puedes obtener estos datos de forma automática con Fintoc lo que simplifica la inscripción en Slach.
                 </p>
               </dd>
 

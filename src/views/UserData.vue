@@ -31,7 +31,8 @@
                         border border-grey-lighter rounded-md py-4 px-4 leading-tight
                         focus:shadow-sm text-gray-900 placeholder-gray-400 mr-2 md:mr-6"
                 placeholder="Elige monto"
-                v-model.trim.lazy="$v.amount.$model"
+                @input="sanitizeAmount"
+                v-model.trim="$v.amount.$model"
               >
               <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.amount.$error">
                 Ingresa un monto válido
@@ -74,7 +75,7 @@
                       </td>
                       <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -87,7 +88,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.rut'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -100,7 +101,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.bank'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -113,7 +114,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.account_type'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -126,7 +127,7 @@
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.account_number'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -139,7 +140,7 @@
                       <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.email'
                                 class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/> 
+                          <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
                     </tr>
@@ -149,7 +150,7 @@
               <div class="text-center">
                 <button v-clipboard:copy='allBankData'
                         class="mt-6 bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
-                  <span class="mr-4">Copiar todos los datos</span> <font-awesome-icon icon="copy"/> 
+                  <span class="mr-4">Copiar todos los datos</span> <font-awesome-icon icon="copy"/>
                 </button>
               </div>
             </div>
@@ -177,10 +178,10 @@
         ¿Tienes Feedback?
       </h1>
       <h3 class="my-2 ">
-        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>  
+        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>
       </h3>
     </div>
-  </div> 
+  </div>
 </template>
 
 <style>
@@ -196,13 +197,14 @@
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
   import { required, integer, between, email } from 'vuelidate/lib/validators';
+  import { cleanAmount } from '../validators/number_validator';
   import Info from '../views/Info.vue';
 
   export default {
     data () {
       return {
         showInfo: false,
-        amount: this.$route.params.amount,
+        amount: cleanAmount(this.$route.params.amount),
         user: {},
         widget: null,
         widgetToken: null,
@@ -285,10 +287,14 @@
     metaInfo: {
       description: `Paga de forma fácil sin tener que entrar a la app del banco. Pagar es Slach ⚡.`
     },
-    
+
     methods: {
       toggleManualTransfer() {
         this.manualTransfer = !this.manualTransfer;
+      },
+
+      sanitizeAmount() {
+        this.amount = cleanAmount(this.amount);
       },
 
       toggleShowInfo() {
@@ -320,6 +326,9 @@
 
       initiatePayment() {
         this.$v.amount.$touch();
+
+        console.log(this.$v.$invalid);
+
         if (this.amount == undefined || this.amount < 0) { return; }
 
         if (this.$route.params.amount != this.amount) {

@@ -31,7 +31,8 @@
                         border border-grey-lighter rounded-md py-4 px-4 leading-tight
                         focus:shadow-sm text-gray-900 placeholder-gray-400 mr-2 md:mr-6"
                 placeholder="Elige monto"
-                v-model.trim.lazy="$v.amount.$model"
+                @input="sanitizeAmount"
+                v-model.trim="$v.amount.$model"
               >
               <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.amount.$error">
                 Ingresa un monto válido
@@ -210,13 +211,14 @@
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
   import { required, integer, between, email } from 'vuelidate/lib/validators';
+  import { cleanAmount } from '../validators/number_validator';
   import Info from '../views/Info.vue';
 
   export default {
     data () {
       return {
         showInfo: false,
-        amount: this.$route.params.amount,
+        amount: cleanAmount(this.$route.params.amount),
         user: {},
         widget: null,
         widgetToken: null,
@@ -305,6 +307,10 @@
         this.manualTransfer = !this.manualTransfer;
       },
 
+      sanitizeAmount() {
+        this.amount = cleanAmount(this.amount);
+      },
+
       toggleShowInfo() {
         window.scroll({
           top: 0,
@@ -334,6 +340,9 @@
 
       initiatePayment() {
         this.$v.amount.$touch();
+
+        console.log(this.$v.$invalid);
+
         if (this.amount == undefined || this.amount < 0) { return; }
 
         if (this.$route.params.amount != this.amount) {

@@ -64,7 +64,7 @@
 
           <div class="h-16 mt-6">
             <div class="w-full flex flex-col">
-              <select 
+              <select
                 v-model="bank"
                 :disabled='onboardedWithFintoc'
                 placeholder="Selecciona un banco"
@@ -72,7 +72,7 @@
                       border border-grey-lighter rounded py-4 px-4 leading-tight
                       focus:shadow-s text-gray-900 bg-white"
               >
-                <option v-for="_bank in banks" 
+                <option v-for="_bank in banks"
                         :key="_bank.id"
                         :value="_bank.id">
                   {{ _bank.name }}
@@ -252,7 +252,7 @@
         ¿Tienes Feedback?
       </h1>
       <h3 class="my-2 ">
-        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>  
+        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>
       </h3>
     </div>
   </div>
@@ -454,7 +454,7 @@
 
       onSubmit() {
         if (this.$v.$invalid) { return; }
-        
+
         const cleanRut = this.rut.replace(/[-.]/g, '');
         const cleanAlias = this.alias.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const formData = {
@@ -488,7 +488,7 @@
             return response.data.entity.name;
           })
       },
-    } 
+    }
   }
 </script>
 

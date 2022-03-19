@@ -932,6 +932,13 @@
     "@babel/helper-validator-identifier" "^7.15.7"
     to-fast-properties "^2.0.0"
 
+"@fintoc/fintoc-js@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@fintoc/fintoc-js/-/fintoc-js-1.1.2.tgz#5e3d12bf1b01ff68d621e06cd55aa9d74bdb8ac2"
+  integrity sha512-itF0aAf5qmAjPYOjjwtK3FZaPkc1jc2NN+ZDsBbq7P/ZKs9mC0XzKESVK1CXmhhzc5IUKBchqug+xliLlxMXHg==
+  optionalDependencies:
+    fsevents "^2.3.2"
+
 "@fortawesome/fontawesome-common-types@^0.2.36":
   version "0.2.36"
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.36.tgz#b44e52db3b6b20523e0c57ef8c42d315532cb903"
@@ -4506,7 +4513,7 @@ fsevents@^1.2.7:
     bindings "^1.5.0"
     nan "^2.12.1"
 
-fsevents@~2.3.2:
+fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"
   resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==

@@ -2,10 +2,10 @@
   <div :class="containerClass" class="h-14 rounded px-4 mb-4 cursor-pointer text-gray-900">
     <div class="flex flex-row justify-between w-full text-sm">
       <div>
-        <span class="font-bold mr-2"> {{ humanizedAccountType(account.account_type) }} </span> 
+        <span class="font-bold mr-2"> {{ humanizedAccountType(account.account_type) }} </span>
       </div>
       <div class="">
-        # {{ account.account_number }} 
+        # {{ account.account_number }}
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@ export default {
   methods: {
     humanizedAccountType(account_type) {
       return accountTypes.find(element => element.id == account_type).name;
-    },  
+    },
   }
 };
 </script>

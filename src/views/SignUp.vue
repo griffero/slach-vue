@@ -258,9 +258,8 @@
   </div>
 </template>
 
-<script src="https://js.fintoc.com/v1/"></script>
-
 <script>
+  import { getFintoc } from '@fintoc/fintoc-js';
   import axios from 'axios';
   import { individualRut } from '../validators/rut_validator.js';
   import { minLength, required, integer, email } from 'vuelidate/lib/validators';
@@ -328,11 +327,8 @@
 
       alias: function() {
         this.checkAliasAvailable().then((response) => { this.aliasAvailable = response; });
-      },
-
-      alias: function() {
         this.alias = this.alias.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      }
+      },
     },
 
     computed: {
@@ -352,6 +348,7 @@
     },
 
     created() {
+      getFintoc();
       this.getSessionId()
         .then((response) => {
           this.session = response
@@ -415,8 +412,9 @@
 
       openFintocWidget() {
         this.getSessionId()
-          .then((response) => {
-              this.session = response
+          .then(async (response) => {
+              this.session = response;
+              const Fintoc = await getFintoc();
               this.widget = Fintoc.create({
               holderType: 'individual',
               product: 'movements',

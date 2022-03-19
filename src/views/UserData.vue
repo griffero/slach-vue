@@ -305,6 +305,9 @@
     methods: {
       toggleManualTransfer() {
         this.manualTransfer = !this.manualTransfer;
+        if (this.manualTransfer) {
+          window.analytics.track('ManualPaymentClicked')
+        }
       },
 
       sanitizeAmount() {
@@ -339,6 +342,7 @@
 
 
       initiatePayment() {
+        window.analytics.track('FintocPaymentClicked')
         this.$v.amount.$touch();
 
         console.log(this.$v.$invalid);

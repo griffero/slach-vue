@@ -205,12 +205,12 @@
 
 </style>
 
-<script src="https://js.fintoc.com/v1/"></script>
 <script>
+  import { getFintoc } from '@fintoc/fintoc-js';
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
   import axios from 'axios';
-  import { required, integer, between, email } from 'vuelidate/lib/validators';
+  import { required, integer, between } from 'vuelidate/lib/validators';
   import { cleanAmount } from '../validators/number_validator';
   import Info from '../views/Info.vue';
 
@@ -238,6 +238,7 @@
     },
 
     created() {
+      getFintoc();
       this.getUserFromAlias()
         .then((response) => {
           const dataResponse = response.data.data;
@@ -323,7 +324,8 @@
         this.showInfo = !this.showInfo;
       },
 
-      openFintocWidget() {
+      async openFintocWidget() {
+        const Fintoc = await getFintoc();
         this.widget = Fintoc.create({
           holderType: 'individual',
           product: 'payments',

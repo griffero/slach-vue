@@ -8,6 +8,7 @@ const BANCO_RIPLEY = 'cl_banco_ripley';
 const BANCO_SANTANDER = 'cl_banco_santander';
 const BANCO_SCOTIABANK = 'cl_banco_scotiabank';
 const BANCO_SECURITY = 'cl_banco_security';
+const TENPO = 'cl_tenpo';
 
 export default [
   {
@@ -49,5 +50,9 @@ export default [
   {
     id: BANCO_SECURITY,
     name: 'Banco Security',
+  },
+  {
+    id: TENPO,
+    name: 'Tenpo',
   },
 ];

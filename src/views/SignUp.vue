@@ -43,7 +43,7 @@
                   placeholder="Rut"
                   id='rut-input'
                   :disabled='onboardedWithFintoc'
-                  v-model.trim.lazy="$v.rut.$model"
+                  v-model.trim="$v.rut.$model"
               >
               <transition name="vertical-slide-fade">
                 <p
@@ -112,7 +112,7 @@
                     type="text"
                     name="accountNumber"
                     placeholder="Número de cuenta"
-                    v-model.trim.lazy="$v.accountNumber.$model"
+                    v-model.trim="$v.accountNumber.$model"
                     id="account-number"
                 >
                 <transition name="vertical-slide-fade">
@@ -151,7 +151,7 @@
             <div class="w-full flex flex-col">
               <input
                   v-model="email"
-                  v-model.trim.lazy="$v.email.$model"
+                  v-model.trim="$v.email.$model"
                   class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
                         border border-grey-lighter rounded py-4 px-4 leading-tight
                         focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-500 dark:placeholder-white"
@@ -181,7 +181,7 @@
             Tu slach sera slach.cl/<span class="font-bold">{{alias}}</span>
             <div class="w-full flex flex-col">
               <input
-                  v-model.trim.lazy="$v.alias.$model"
+                  v-model.trim="$v.alias.$model"
                   class="appearance-none block w-full bg-grey-lighter text-grey-900
                         border border-grey-lighter rounded py-4 px-4 leading-tight
                         focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-500 dark:placeholder-white"

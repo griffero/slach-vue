@@ -261,7 +261,7 @@
 <script>
   import { getFintoc } from '@fintoc/fintoc-js';
   import axios from 'axios';
-  import { individualRut } from '../validators/rut_validator.js';
+  import { individualRut, businessRut } from '../validators/rut_validator.js';
   import { minLength, required, integer, email } from 'vuelidate/lib/validators';
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
@@ -298,7 +298,7 @@
       return {
         rut: {
           required,
-          rutValidator: individualRut,
+          rutValidator: (rut) => individualRut(rut) || businessRut(rut),
         },
         alias: {
           required,

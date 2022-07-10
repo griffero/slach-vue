@@ -36,8 +36,8 @@
             <div class="w-full flex flex-col">
               <input
                   class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                        border border-grey-lighter rounded py-4 px-4 leading-tight
-                        focus:shadow-s text-gray-900 placeholder-gray-500 dark:placeholder-white"
+                        border border-grey-lighter rounded-lg py-4 px-4 leading-tight
+                        focus:shadow-s text-gray-900 placeholder-gray-700 dark:placeholder-white"
                   :class="{ 'border-red-500 dark:border-red-400': $v.rut.$error }"
                   type="text"
                   placeholder="Rut"
@@ -64,40 +64,20 @@
 
           <div class="h-16 mt-6">
             <div class="w-full flex flex-col">
-              <select
-                v-model="bank"
-                :disabled='onboardedWithFintoc'
-                placeholder="Selecciona un banco"
-                class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                      border border-grey-lighter rounded py-4 px-4 leading-tight
-                      focus:shadow-s text-gray-900 bg-white"
-              >
-                <option v-for="_bank in banks"
-                        :key="_bank.id"
-                        :value="_bank.id">
-                  {{ _bank.name }}
-                </option>
-              </select>
+                <GenericDropDown
+                  :options="banks"
+                  :label="'Banco'"
+                />
             </div>
           </div>
 
           <div v-if="!onboardedWithFintoc">
             <div class="h-16 mt-6">
               <div class="w-full flex flex-col">
-                <select
-                  v-model="accountType"
-                  :disabled='onboardedWithFintoc'
-                  placeholder="Selecciona un tipo de cuenta"
-                    class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                          border border-grey-lighter rounded py-4 px-4 leading-tight
-                          focus:shadow-s text-gray-900 bg-white"
-                >
-                  <option v-for="_accountType in accountTypes"
-                          :value="_accountType.id"
-                          :key="_accountType.id">
-                    {{ _accountType.name }}
-                  </option>
-                </select>
+                <GenericDropDown
+                  :options="accountTypes"
+                  :label="'Tipo de cuenta'"
+                />
               </div>
             </div>
 
@@ -105,8 +85,8 @@
               <div class="w-full flex flex-col">
                 <input
                     class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                          border border-grey-lighter rounded py-4 px-4 leading-tight
-                          focus:shadow-sm text-gray-900 placeholder-gray-500 dark:placeholder-white"
+                          border border-grey-lighter rounded-lg py-4 px-4 leading-tight
+                          focus:shadow-sm text-gray-900 placeholder-gray-700 dark:placeholder-white"
                     :class="{ 'border-red-500 dark:border-red-400': $v.accountNumber.$error }"
                     :disabled='onboardedWithFintoc'
                     type="text"
@@ -139,7 +119,7 @@
             </p>
             <div
               class="mt-4"
-              :class="{ 'border rounded mt-1 px-4 pt-4' : sortedAccounts.length > 1 }"
+              :class="{ 'border rounded-lg mt-1 px-4 pt-4' : sortedAccounts.length > 1 }"
             >
               <div v-for="account in sortedAccounts" :key='account.id' @click="selectAccount(account)">
                 <AccountInfo :account="account" :containerClass="accountClass(account)" :name='account'/>
@@ -153,8 +133,8 @@
                   v-model="email"
                   v-model.trim="$v.email.$model"
                   class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                        border border-grey-lighter rounded py-4 px-4 leading-tight
-                        focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-500 dark:placeholder-white"
+                        border border-grey-lighter rounded-lg py-4 px-4 leading-tight
+                        focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-700 dark:placeholder-white"
                   :class="{ 'border-red-500 dark:border-red-400': $v.email.$error }"
                   type="email"
                   name="email"
@@ -183,8 +163,8 @@
               <input
                   v-model.trim="$v.alias.$model"
                   class="appearance-none block w-full bg-grey-lighter text-grey-900
-                        border border-grey-lighter rounded py-4 px-4 leading-tight
-                        focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-500 dark:placeholder-white"
+                        border border-grey-lighter rounded-lg py-4 px-4 leading-tight
+                        focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-700 dark:placeholder-white"
                   :class="{ 'border-red-500 dark:border-red-400': $v.alias.$error }"
                   type="text"
                   name="Usuario"
@@ -266,7 +246,9 @@
   import banks from '../constants/banks';
   import accountTypes from '../constants/account_types';
   import AccountInfo from '../components/AccountInfo.vue';
+  import GenericDropDown from '../components/GenericDropDown.vue';
   import Info from '../views/Info.vue';
+  
 
   export default {
     data () {
@@ -358,6 +340,7 @@
     components: {
       Info,
       AccountInfo,
+      GenericDropDown,
     },
 
     metaInfo: {

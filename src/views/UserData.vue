@@ -121,7 +121,7 @@
 
                     <tr>
                       <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">Numero:</div>
+                        <div class="text-sm text-gray-900">Número:</div>
                         <div class="text-sm text-gray-900  font-bold">{{ user.account_number }}</div>
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

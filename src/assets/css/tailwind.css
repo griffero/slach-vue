@@ -4,100 +4,74 @@
 /* purgecss start ignore */
 @import "tailwindcss/base";
 
-.font-400 {
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-Regular.otf");
   font-weight: normal;
+  font-style: normal;
 }
 
-.font-500 {
-  font-weight: 500;
-}
-
-.font-600 {
-  font-weight: 600;
-}
-
-.font-700 {
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-Bold.otf");
   font-weight: bold;
-}
-
-.font-XXS {
-/* Text XXS */
-font-family: Inter;
-font-style: normal;
-font-size: 10px;
-line-height: 16px;
-}
-
-.font-XS {
-/* Text XS */
-font-family: Inter;
-font-style: normal;
-font-size: 12px;
-line-height: 16px;
-}
-
-.font-S {
-  /* Text S */
-  font-family: Inter;
   font-style: normal;
-  font-size: 14px;
-  line-height: 20px;
 }
 
-.font-M {
-  /* Text M */
-  font-family: Inter;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-Black.otf");
+  font-weight: 900;
   font-style: normal;
-  font-size: 16px;
-  line-height: 24px;
 }
 
-.font-L {
-  /* Text L */
-  font-family: Inter;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-Medium.otf");
+  font-weight: 500;
   font-style: normal;
-  font-size: 18px;
-  line-height: 30px;
 }
 
-.font-heading-XS {
-  /* Text heading XS */
-  font-family: Inter;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-Light.otf");
+  font-weight: 300;
   font-style: normal;
-  font-size: 22px;
-  line-height: 32px;
 }
 
-.font-heading-S {
-  /* Text heading S */
-  font-family: Inter;
-  font-style: normal;
-  font-size: 24px;
-  line-height: 34px;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-Italic.otf");
+  font-weight: normal;
+  font-style: italic;
 }
 
-.font-heading-M {
-  /* Text heading M */
-  font-family: Inter;
-  font-style: normal;
-  font-size: 28px;
-  line-height: 42px;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-BoldItalic.otf");
+  font-weight: bold;
+  font-style: italic;
 }
 
-.font-heading-L {
-  /* Text heading L */
-  font-family: Inter;
-  font-style: normal;
-  font-size: 36px;
-  line-height: 47px;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-BlackItalic.otf");
+  font-weight: 900;
+  font-style: italic;
 }
 
-.font-heading-XL {
-  /* Text heading XL */
-  font-family: Inter;
-  font-style: normal;
-  font-size: 55px;
-  line-height: 68px;
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-MediumItalic.otf");
+  font-weight: 500;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "TT Norms";
+  src: url("../fonts/TTNorms-LightItalic.otf");
+  font-weight: 300;
+  font-style: italic;
 }
 
 @import "tailwindcss/components";

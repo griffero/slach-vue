@@ -8,7 +8,8 @@ import { rutFilter, rutInputDirective } from 'vue-dni';
 import {
   faEye, faEdit, faTrash, faPlus, faLock, faCog, faCopy, faBolt, faShieldAlt, faChevronLeft,
   faTimes, faBuilding, faUser, faDollarSign, faHandshake, faCheck, faKey, faUniversity,
-  faMobile, faExclamationCircle, faQuestion, faSearch, faShare, fa1, fa2,
+  faMobile, faExclamationCircle, faQuestion, faSearch, faShare, faStore, fa1, fa2, faPencil,
+  faPaperPlane,
 } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -23,7 +24,8 @@ import store from './store';
 library.add(
   faEye, faEdit, faPlus, faTrash, faLock, faCog, faCopy, faBolt, faShieldAlt, faChevronLeft,
   faTimes, faBuilding, faUser, faDollarSign, faHandshake, faCheck, faKey, faUniversity, faMobile,
-  faExclamationCircle, faQuestion, faSearch, faShare, faTwitter, fa1, fa2
+  faExclamationCircle, faQuestion, faSearch, faShare, faTwitter, faStore, fa1, fa2, faPencil,
+  faPaperPlane
 );
 
 Vue.use(VueMeta)

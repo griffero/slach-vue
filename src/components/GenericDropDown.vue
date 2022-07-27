@@ -6,15 +6,16 @@
     <button
       data-test="drop-down-button"
       :class="`
-        flex items-center justify-between rounded-lg font-medium min-w-max p-4 bg-white
-        disabled:bg-light-gray disabled:text-disabled-color text-gray-900
-        border border-grey-lighter text-sm capitalize
+        flex items-center justify-between rounded-lg font-medium min-w-max p-4 
+        disabled:bg-gray-300 text-gray-900 border border-grey-lighter text-sm capitalize
         text-body-color w-full`
       "
       @click="toggle"
+      :disabled='disabled'
     >
       <div> {{ title }} </div>
       <ChevronDown
+        v-show="!disabled"
         class="ml-1.5 text-placeholder-color w-4 h-4"
       />
       
@@ -23,7 +24,7 @@
       data-test="drop-down-list"
       v-click-outside="hide"
       class="
-        absolute z-10 text-base list-none bg-white cursor-pointer mt-1 w-full
+        absolute z-20 text-base list-none bg-white cursor-pointer mt-1 w-full
         divide-y divide-divider-color shadow-lg rounded-lg capitalize
       "
       :class="{ 'hidden': !opened }"
@@ -53,7 +54,7 @@ export default {
   data () {
     return {
       opened: false,
-      selection: null,
+      selection: this.defaultSelection,
     };
   },
 
@@ -72,6 +73,8 @@ export default {
   props: {
     options: Array,
     label: String,
+    disabled: Boolean,
+    defaultSelection: String,
   },
 
   methods: {
@@ -85,6 +88,7 @@ export default {
 
     select(option) {
       this.selection = option;
+      this.$emit('sendSelection', option);
       this.opened = false;
     },
   },

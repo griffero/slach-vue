@@ -13,8 +13,7 @@
             v-if="showConfirmationAlert"
             class="text-center pt-2 lg:px-4">
             <div class="p-2 bg-indigo-800 items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex" role="alert">
-              <span class="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">Alert</span>
-              <span class="font-semibold mr-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
+              <span class="font-medium mx-2 text-left flex-auto">Tu cuenta fue confirmada. Ya puedes empezar a usar Slach 🎉.</span>
             </div>
           </div>
 
@@ -40,25 +39,23 @@
                     class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
                            mt-6 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
             >
-              Pagar rápido ⚡
+              Pagar sin salir de Slach 📲 
             </button>
 
-            <p class="w-full text-left flex items-center font-medium text-gray-600">
-              <span>
-              <svg class="mr-2" width="15" height="15" viewBox="0 0 512 512" fill="#3762ff" xmlns="http://www.w3.org/2000/svg">
-                <path d="M466.5 83.6985L274.5 3.6985C268.651 1.27229 262.382 0.0234375 256.05 0.0234375C249.718 0.0234375 243.449 1.27229 237.6 3.6985L45.6 83.6985C27.7 91.0985 16 108.598 16 127.998C16 326.498 130.5 463.698 237.5 508.298C249.3 513.198 262.6 513.198 274.4 508.298C360.1 472.598 496 349.299 496 127.998C496 108.598 484.3 91.0985 466.5 83.6985ZM419.3 197.898L235.3 381.898C229.1 388.098 218.9 388.098 212.7 381.898L108.7 277.898C102.5 271.698 102.5 261.499 108.7 255.299L131.3 232.699C137.5 226.499 147.7 226.499 153.9 232.699L224 302.798L374.1 152.699C380.3 146.499 390.5 146.499 396.7 152.699L419.3 175.299C425.6 181.599 425.6 191.698 419.3 197.898V197.898Z" fill="#3762ff"/>
-              </svg>
-              </span>
-              Transferencias gratis y rápidas con Fintoc</p>
+            <p class="text-sm text-left w-full text-gray-600">
+              Entra a tu cuenta del banco desde acá y transfiere en segundos
+            </p>
             <button @click="toggleManualTransfer"
                     class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
                            mt-12 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
             >
-              {{ manualTransfer ? 'Ocultar datos' : 'Ver datos para pagar manualmente 🐢' }}
+              {{ manualTransfer ? 'Ocultar datos' : 'Ver datos para pagar manualmente 🏦' }}
             </button>
+            <p class="text-sm text-left w-full text-gray-600" v-if="!manualTransfer">
+              Te mostramos los datos bancarios y tú haces la transferencia
+            </p>
           </div>
 
-          <transition name="fade">
             <div class="max-w-md container flex-1 px-2 mx-auto items-center justify-center flex flex-col" v-if="manualTransfer">
               <h3 class="mt-4 mb-8 text-center text-gray-600 font-medium">
                 Acá están los datos bancarios para que los copies e inscribas el destinatario en tu banco
@@ -152,13 +149,12 @@
                 </button>
               </div>
             </div>
-          </transition>
 
           <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
             <button
               @click="() => $router.push({ path: '/' })"
               class="
-                mt-10 py-2 mb-4 px-4 border h-12 w-full rounded-full
+                mt-20 py-2 mb-4 px-4 border h-12 w-full rounded-full
                 font-medium text-center text-gray-800
                 border-green-300 bg-green-300
                 hover:bg-green-200 hover:border-green-200

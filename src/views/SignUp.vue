@@ -1,212 +1,370 @@
 <template>
   <div class="w-full">
-    <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900" v-if="!showInfo">
-      <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-start px-2">
-        <h2 class="mt-12 text-5xl font-bold text-gray-900 dark:text-white">⚡ Slach ⚡</h2>
+    <div class="flex flex-col bg-white dark:bg-gray-900" v-if="!showInfo">
+      <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-start px-2 min-h-screen">
 
-        <h3 class="my-12 text-center text-lg text-gray-800 dark:text-white">Al registrarte obtendrás un link único que te servirá para recibir pagos de quién quieras.</h3>
+        <div v-if="step == 0" class="flex-1 flex flex-col items-center justify-start">
+          <h3 class="mt-20 text-center font-medium text-3xl text-gray-800 dark:text-white">¿Para qué quieres usar Slach?</h3>
+          <div class="flex items-center justify-center mt-20">
+            <form class="w-full max-w-screen-md mx-auto">
+              <div class="grid sm:grid-cols-2 gap-8">
+                <label class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer hover:bg-gray-700 hover:text-white text-gray-800">
+                  <span class="text-center text-2xl mb-3">
+                    <font-awesome-icon icon="user"/>
+                  </span>
+                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Personal</span>
+                  <span class="font-regular text-center">Recibe pagos de tus amigos de forma fácil</span>
+                  <input type="radio" value="false" class="absolute h-0 w-0 appearance-none" v-model="isBusiness" />
+                  <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
+                    <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                  </span>
+                </label>
 
-        <button
-          v-if="!onboardedWithFintoc"
-          @click="openFintocWidget"
-          class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-yellow-300
-                 w-full mb-4 flex rounded-md hover:bg-yellow-200"
-        >
-          <span class="w-full">Regístrate automáticamente</span>
-        </button>
-
-        <p class="text-center mb-4" v-if="!onboardedWithFintoc">o</p>
-
-        <button
-          @click="toggleManualSignUp"
-          v-if="!onboardedWithFintoc"
-          class="text-gray-800 font-semibold py-2 px-4 border border-gray-200 bg-gray-300
-                 w-full mb-4 flex rounded-md hover:bg-gray-200"
-        >
-          <span class="w-full">Regístrate manualmente</span>
-        </button>
-
-        <transition name="fade">
-          <form @submit.prevent="onSubmit" method="POST" class="w-full mx-auto"  v-if="manualSignUp || onboardedWithFintoc">
-
-          <h2 class="text-center mt-4 mb-2 font-bold text-xl text-gray-900 dark:text-white" v-if="this.fullName">
-            {{ this.fullName }}
-          </h2>
-          <div class="h-16 mt-6">
-            <div class="w-full flex flex-col">
-              <input
-                  class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                        border border-grey-lighter rounded-lg py-4 px-4 leading-tight
-                        focus:shadow-s text-gray-900 placeholder-gray-700 dark:placeholder-white"
-                  :class="{ 'border-red-500 dark:border-red-400': $v.rut.$error }"
-                  type="text"
-                  placeholder="Rut"
-                  id='rut-input'
-                  :disabled='onboardedWithFintoc'
-                  v-model.trim="$v.rut.$model"
-              >
-              <transition name="vertical-slide-fade">
-                <p
-                  class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600 dark:text-white'
-                  v-if="rut != null && rut != ''"
-                >
-                  Rut
-                </p>
-              </transition>
-            </div>
-            <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.rut.$error && !(rut == null || rut == '')">
-              Ingresa un rut válido 👮🏽‍♀
-            </div>
-            <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.rut.required && $v.rut.$error">
-              Este campo es obligatorio
-            </div>
-          </div>
-
-          <div class="h-16 mt-6">
-            <div class="w-full flex flex-col">
-                <GenericDropDown
-                  :options="banks"
-                  :label="'Banco'"
-                />
-            </div>
-          </div>
-
-          <div v-if="!onboardedWithFintoc">
-            <div class="h-16 mt-6">
-              <div class="w-full flex flex-col">
-                <GenericDropDown
-                  :options="accountTypes"
-                  :label="'Tipo de cuenta'"
-                />
+                <label class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer hover:bg-gray-700 hover:text-white text-gray-800">
+                  <span class="text-center text-2xl mb-3">
+                    <font-awesome-icon icon="store"/>
+                  </span>
+                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Negocio</span>
+                  <span class="font-regular text-center">Recibe pagos en tu negocio con un link de pagos o un código QR</span>
+                  <input type="radio" value="true" class="absolute h-0 w-0 appearance-none" v-model="isBusiness" />
+                  <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
+                    <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                  </span>
+                </label>
               </div>
+            </form>
+          </div>
+          <button
+            @click="moveForward"
+            class="font-medium py-2 px-10 border border-gray-200 bg-indigo-500
+                  mb-28 flex hover:bg-indigo-400 text-white rounded-full mt-20"
+          >
+            <span class="w-full">Continuar</span>
+          </button>
+        </div>
+
+        <div v-if="step == 1" class="flex-1 flex flex-col items-center justify-start">
+          <h3 class="mt-20 text-center font-medium text-3xl text-gray-800 dark:text-white">Ingresa tu usuario</h3>
+          <h3 class="my-8 text-center text-lg text-gray-800 dark:text-white">Tu usuario es tu cuenta. <strong>No olvides tu usuario.</strong> Lo necesitarás para empezar a recibir pagos</h3>
+          <div class="flex items-center justify-center mt-10 w-full">
+            <form class="w-full max-w-screen-md mx-auto">
+              <div class="h-16 mt-2">
+                <span class="text-xl">Tu slach sera slach.cl/<span class="font-bold">{{ alias || 'usuario' }}</span></span>
+                <div class="w-full flex flex-col mb-2">
+                  <input
+                      v-model.trim="$v.alias.$model"
+                      class="appearance-none block w-full bg-grey-lighter text-grey-900
+                            border border-grey-lighter rounded-lg py-4 px-4 leading-tight
+                            focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-700 dark:placeholder-white"
+                      :class="{ 'border-red-500 dark:border-red-400': $v.alias.$error }"
+                      type="text"
+                      name="Usuario"
+                      placeholder="Usuario"
+                      @change="trimSpaces"
+                  >
+                  <transition name="vertical-slide-fade">
+                    <p
+                      class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
+                      v-if="alias !== null"
+                    >
+                      Usuario
+                    </p>
+                  </transition>
+                </div>
+                <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.alias.required && $v.alias.$error">
+                  Este campo es obligatorio
+                </div>
+                <div class='dark:text-red-400 text-red-700 text-xs' v-if="!(alias == null || alias == '') && !$v.alias.aliasAvailable">
+                  Este usuario está tomado 😱
+                </div>
+              </div>
+            </form>
+          </div>
+          <button
+            @click="moveForward"
+            class="font-medium py-2 px-10 border border-gray-200 mb-4 flex
+                 text-white rounded-full mt-20 opacity-50 bg-indigo-500"
+            :class="{
+              'focus:outline-none': $v.alias.$invalid,
+              'cursor-not-allowed': $v.alias.$invalid,
+              'hover:bg-indigo-400': !$v.alias.$invalid,
+              'opacity-100': !$v.alias.$invalid,
+            }"
+            :disabled='$v.alias.$invalid'
+          >
+            <span class="w-full">Continuar</span>
+          </button>
+          <span
+            class="mb-28 text-indigo-500 hover:underline cursor-pointer hover:text-indigo-700"
+            @click="moveBackwards"
+          >
+            atrás
+          </span>
+        </div>
+
+        <div v-if="step == 2" class="flex-1 flex flex-col items-center justify-start">
+          <h3 class="mt-20 text-center font-medium text-3xl text-gray-800 dark:text-white">Registra tus datos bancarios</h3>
+          <h3 class="mt-8 text-center text-lg text-gray-800 dark:text-white">Los pagos llegaran directamente a la cuenta que registres acá.</h3>
+
+          <div 
+            class="flex items-center justify-center mt-10"
+            v-if="!onboardedWithFintoc"
+          >
+            <div 
+              class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer hover:bg-gray-700 hover:text-white text-gray-800"
+              @click="openFintocWidget"
+            >
+              <span class="text-center text-2xl mb-3">
+                <font-awesome-icon icon="bolt"/>
+              </span>
+              <span class="font-semibold leading-tight uppercase mb-3 text-center">Registro rápido</span>
+              <span class="font-regular text-center">Inicia sesión en tu banco y obtén los datos automáticamente</span>
+              <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
+                <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
+                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </span>
+              </span>
             </div>
+          </div>
+
+          <form @submit.prevent="onSubmit" method="POST" class="w-full mx-auto mt-10"  v-if="onboardedWithFintoc || true">
 
             <div class="h-16 mt-6">
               <div class="w-full flex flex-col">
                 <input
-                    class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
+                    class="block w-full disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
                           border border-grey-lighter rounded-lg py-4 px-4 leading-tight
-                          focus:shadow-sm text-gray-900 placeholder-gray-700 dark:placeholder-white"
-                    :class="{ 'border-red-500 dark:border-red-400': $v.accountNumber.$error }"
-                    :disabled='onboardedWithFintoc'
+                          focus:shadow-s text-gray-900 placeholder-gray-700 dark:placeholder-white"
+                    :class="{ 'border-red-500 dark:border-red-400': $v.rut.$error }"
                     type="text"
-                    name="accountNumber"
-                    placeholder="Número de cuenta"
-                    v-model.trim="$v.accountNumber.$model"
-                    id="account-number"
+                    placeholder="Rut"
+                    id='rut-input'
+                    :disabled='onboardedWithFintoc'
+                    v-model.trim="$v.rut.$model"
                 >
                 <transition name="vertical-slide-fade">
                   <p
-                    class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
-                    v-if="accountNumber != null && accountNumber != ''"
+                    class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600 dark:text-white'
+                    v-if="rut != null && rut != ''"
                   >
-                    Número de cuenta
+                    Rut
                   </p>
                 </transition>
               </div>
-              <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.accountNumber.$error && !(accountNumber == null || accountNumber == '')">
-                Ingresa un número de cuenta válido 👮🏽‍♀
+              <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.rut.$error && !(rut == null || rut == '')">
+                Ingresa un rut válido 👮🏽‍♀
               </div>
-              <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.accountNumber.required && $v.accountNumber.$error">
+              <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.rut.required && $v.rut.$error">
                 Este campo es obligatorio
               </div>
             </div>
-          </div>
 
-          <div v-if="onboardedWithFintoc">
-            <p class="mt-4" v-if="sortedAccounts.length > 1">
-              Selecciona una cuenta
-            </p>
-            <div
-              class="mt-4"
-              :class="{ 'border rounded-lg mt-1 px-4 pt-4' : sortedAccounts.length > 1 }"
-            >
-              <div v-for="account in sortedAccounts" :key='account.id' @click="selectAccount(account)">
-                <AccountInfo :account="account" :containerClass="accountClass(account)" :name='account'/>
+            <div class="h-16 mt-6">
+              <div class="w-full flex flex-col">
+                  <GenericDropDown
+                    :options="banks"
+                    :label="'Banco'"
+                    :disabled="onboardedWithFintoc"
+                    :defaultSelection="bank"
+                    @sendSelection="(option) => { bank = option }"
+                  />
               </div>
             </div>
-          </div>
 
-          <div class="h-16 mt-6">
-            <div class="w-full flex flex-col">
-              <input
-                  v-model="email"
-                  v-model.trim="$v.email.$model"
-                  class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
-                        border border-grey-lighter rounded-lg py-4 px-4 leading-tight
-                        focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-700 dark:placeholder-white"
-                  :class="{ 'border-red-500 dark:border-red-400': $v.email.$error }"
-                  type="email"
-                  name="email"
-                  placeholder="Email"
+            <div v-if="!onboardedWithFintoc">
+              <div class="h-16 mt-6">
+                <div class="w-full flex flex-col">
+                  <GenericDropDown
+                    :options="accountTypes"
+                    :label="'Tipo de cuenta'"
+                    :defaultSelection="accountType"
+                    @sendSelection="(option) => { accountType = option }"
+                  />
+                </div>
+              </div>
+
+              <div class="h-16 mt-6">
+                <div class="w-full flex flex-col">
+                  <input
+                      class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50
+                            disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none border
+                            border-grey-lighter rounded-lg py-4 px-4 leading-tight focus:shadow-sm
+                            text-gray-900 placeholder-gray-700 dark:placeholder-white"
+                      :class="{ 'border-red-500 dark:border-red-400': $v.accountNumber.$error }"
+                      :disabled='onboardedWithFintoc'
+                      type="text"
+                      name="accountNumber"
+                      placeholder="Número de cuenta"
+                      v-model.trim="$v.accountNumber.$model"
+                      id="account-number"
+                  >
+                  <transition name="vertical-slide-fade">
+                    <p
+                      class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
+                      v-if="accountNumber != null && accountNumber != ''"
+                    >
+                      Número de cuenta
+                    </p>
+                  </transition>
+                </div>
+                <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.accountNumber.$error && !(accountNumber == null || accountNumber == '')">
+                  Ingresa un número de cuenta válido 👮🏽‍♀
+                </div>
+                <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.accountNumber.required && $v.accountNumber.$error">
+                  Este campo es obligatorio
+                </div>
+              </div>
+            </div>
+
+            <div v-if="onboardedWithFintoc">
+              <p class="mt-4" v-if="sortedAccounts.length > 1">
+                Selecciona una cuenta
+              </p>
+              <div
+                class="mt-4"
+                :class="{ 'border rounded-lg mt-1 px-4 pt-4' : sortedAccounts.length > 1 }"
               >
-              <transition name="vertical-slide-fade">
-                <p
-                  class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
-                  v-if="email != null && email != ''"
-                >
-                  Email
-                </p>
-              </transition>
+                <div v-for="account in sortedAccounts" :key='account.id' @click="selectAccount(account)">
+                  <AccountInfo :account="account" :containerClass="accountClass(account)" :name='account'/>
+                </div>
+              </div>
             </div>
-            <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.email.$error && !(email == null || email == '')">
-              Ingresa un email válido 👮🏽‍♀
-            </div>
-            <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.email.required && $v.email.$error">
-              Este campo es obligatorio
-            </div>
-          </div>
-
-          <div class="h-16 mt-2">
-            Tu slach sera slach.cl/<span class="font-bold">{{alias}}</span>
-            <div class="w-full flex flex-col">
-              <input
-                  v-model.trim="$v.alias.$model"
-                  class="appearance-none block w-full bg-grey-lighter text-grey-900
-                        border border-grey-lighter rounded-lg py-4 px-4 leading-tight
-                        focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-700 dark:placeholder-white"
-                  :class="{ 'border-red-500 dark:border-red-400': $v.alias.$error }"
-                  type="text"
-                  name="Usuario"
-                  placeholder="Usuario"
-                  @change="trimSpaces"
-              >
-              <transition name="vertical-slide-fade">
-                <p
-                  class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
-                  v-if="alias !== null"
-                >
-                  Usuario
-                </p>
-              </transition>
-            </div>
-            <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.alias.required && $v.alias.$error">
-              Este campo es obligatorio
-            </div>
-            <div class='dark:text-red-400 text-red-700 text-xs' v-if="!(alias == null || alias == '') && !$v.alias.aliasAvailable">
-              Este usuario está tomado 👮🏽‍♀
-            </div>
-          </div>
-
-          <div class='my-12'>
-            <button
-              class="font-semibold py-2 px-4 border rounded-md w-full text-gray-900 bg-yellow-300 opacity-50"
-              :class="{
-                'cursor-not-allowed': $v.$invalid, 'focus:outline-none': $v.$invalid,
-                'bg-yellow-300': !$v.$invalid, 'border-transparent': !$v.$invalid,
-                'hover:bg-yellow-200': !$v.$invalid, 'opacity-100': !$v.$invalid,
-                'text-gray-400': $v.$invalid
-              }"
-            >
-              Registrarme
-            </button>
-          </div>
-
-          <h1 v-if='error' class="mt-6 text-red-600">
-            Oh no 😢 {{ errorMessage }}.
-          </h1>
           </form>
-        </transition>
+
+          <button
+            @click="moveForward"
+            :disabled="!isStepThreeValid"
+            class="font-medium py-2 px-10 border border-gray-200 mb-4 flex
+                 text-white rounded-full mt-10 opacity-50 bg-indigo-500"
+            :class="{
+              'focus:outline-none': !isStepThreeValid,
+              'cursor-not-allowed': !isStepThreeValid,
+              'hover:bg-indigo-400': isStepThreeValid,
+              'opacity-100': isStepThreeValid,
+            }"
+          >
+            <span class="w-full">Continuar</span>
+          </button>
+          <span
+            class="mb-28 text-indigo-500 hover:underline cursor-pointer hover:text-indigo-700"
+            @click="moveBackwards"
+          >
+            atrás
+          </span>
+        </div>
+
+        <div v-if="step == 3" class="flex-1 flex flex-col items-center justify-start">
+          <h3 class="mt-20 text-center font-medium text-3xl text-gray-800 dark:text-white">¡Ya estamos casi!</h3>
+          <h3 class="my-8 text-center text-lg text-gray-800 dark:text-white">
+            Revisa que los datos sean los correctos y luego confirma tu mail para validar tu cuenta.
+          </h3>
+
+          <div class="bg-white shadow overflow-hidden sm:rounded-lg mt-2 w-full">
+            <div class="px-4 py-5 sm:px-6">
+              <h3 class="text-lg leading-6 font-medium text-gray-900">Información de tu cuenta</h3>
+            </div>
+            <div class="border-t border-gray-200">
+              <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Nombre</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ fullName }}</dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Banco</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ bank.name }}</dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Tipo de cuenta</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ accountType.name }}</dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">Número de cuenta</dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">{{ accountNumber }}</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+
+          <div class="mt-10 text-center">
+            <p class="text-2xl">Tu usuario será: <strong class="text-indigo-600">{{ alias }}</strong></p>
+            <p class="text-base mt-2 text-gray-600">
+              Acuerdate que en slach no tienes una cuenta ni debes iniciar sesión. Solo debes conocer tu usuario para cobrar.
+            </p>
+          </div>
+
+          <div class="flex items-center justify-center mt-6 w-full">
+            <form class="w-full max-w-screen-md mx-auto">
+              <div class="h-16 mt-6">
+                <div class="w-full flex flex-col">
+                  <input
+                      v-model="email"
+                      v-model.trim="$v.email.$model"
+                      class="appearance-none block w-full bg-grey-lighter text-grey-900 disabled:bg-gray-50 disabled:text-gray-500 disabled:border-gray-200 disabled:shadow-none
+                            border border-grey-lighter rounded-lg py-4 px-4 leading-tight
+                            focus:shadow-sm text-gray-900 dark:text-white bg-white dark:bg-gray-900 placeholder-gray-700 dark:placeholder-white"
+                      :class="{ 'border-red-500 dark:border-red-400': $v.email.$error }"
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                  >
+                  <transition name="vertical-slide-fade">
+                    <p
+                      class='z-10 absolute text-sm self-end py-4 pr-5 text-gray-600'
+                      v-if="email != null && email != ''"
+                    >
+                      Email
+                    </p>
+                  </transition>
+                </div>
+                <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.email.$error && !(email == null || email == '')">
+                  Ingresa un email válido 👮🏽‍♀
+                </div>
+                <div class='dark:text-red-400 text-red-700 text-xs' v-if="!$v.email.required && $v.email.$error">
+                  Este campo es obligatorio
+                </div>
+              </div>
+            </form>
+          </div>
+          <button
+            @click="onSubmit"
+            :disabled='$v.email.$invalid'
+            class="font-medium py-2 px-10 border border-gray-200 mb-4 flex
+                   text-white rounded-full mt-10 opacity-50 bg-indigo-500"
+            :class="{
+              'focus:outline-none': $v.email.$invalid,
+              'cursor-not-allowed': $v.email.$invalid,
+              'hover:bg-indigo-400': !$v.email.$invalid,
+              'opacity-100': !$v.email.$invalid,
+            }"
+          >
+            <span class="w-full">
+              Confirmar email
+              <font-awesome-icon icon="paper-plane"/>
+            </span>
+          </button>
+          <span
+            class="mb-20 text-indigo-500 hover:underline cursor-pointer hover:text-indigo-700"
+            @click="moveBackwards"
+          >
+            atrás
+          </span>
+        </div>
+
+        <div v-if="step == 4" class="flex-1 flex flex-col items-center justify-start">
+          <h3 class="mt-20 text-center font-medium text-3xl text-gray-800 dark:text-white">¡Ya tenemos todos lo necesario para partir!</h3>
+          <h3 class="mt-8 text-center text-lg text-gray-800 dark:text-white">Solo falta que confirmes tu email.</h3>
+        </div>
+
       </div>
     </div>
     <div class="min-h-screen flex flex-col bg-white" v-if="showInfo">
@@ -253,26 +411,27 @@
   export default {
     data () {
       return {
-        showInfo: false,
         accounts: null,
         account: null,
-        session: null,
-        widget: null,
-        rut: null,
-        email: null,
-        manualSignUp: false,
-        fullName: null,
         accountNumber: null,
         alias: null,
         aliasAvailable: true,
         accountTypes,
-        accountType: accountTypes[0].id,
+        accountType: null,
         banks,
-        bank: banks[0].id,
-        submited: false,
+        bank: null,
+        email: null,
         error: false,
         errorMessage: null,
+        fullName: null,
+        isBusiness: false,
         onboardedWithFintoc: false,
+        rut: null,
+        submited: false,
+        step: 0,
+        showInfo: false,
+        session: null,
+        widget: null,
       };
     },
 
@@ -296,6 +455,15 @@
         email: {
           email,
           required,
+        },
+        accountType: {
+          required,
+        },
+        bank: {
+          required,
+        },
+        isBusiness: {
+          required,
         }
       };
     },
@@ -314,6 +482,15 @@
     },
 
     computed: {
+      isStepThreeValid() {
+        return !this.$v.rut.$invalid &&
+          !this.$v.bank.$invalid &&
+          !this.$v.accountType.$invalid &&
+          !this.$v.accountNumber.$invalid &&
+          !this.$v.alias.$invalid &&
+          !this.$v.isBusiness.$invalid;
+      },
+
       sortedAccounts() {
         if (this.accounts == null) {
           return [];
@@ -363,22 +540,32 @@
         });
       },
 
-      toggleShowInfo() {
+      moveBackwards() {
+        this.step -= 1;
+        this.scrollUp();
+      },
+
+      moveForward() {
+        this.step += 1;
+        this.scrollUp();
+      },
+
+      scrollUp() {
         window.scroll({
           top: 0,
           left: 0,
           behavior: 'smooth'
         });
-        this.showInfo = !this.showInfo;
       },
 
-      toggleManualSignUp() {
-        this.manualSignUp = !this.manualSignUp;
+      toggleShowInfo() {
+        this.scrollUp();
+        this.showInfo = !this.showInfo;
       },
 
       selectAccount(account) {
         this.account = account;
-        this.accountType = account.account_type;
+        this.accountType = this.accountTypes.find((account_type) => account_type.id === account.account_type);
         this.accountNumber = account.account_number;
       },
 
@@ -393,7 +580,7 @@
         return 'account-cell cell-not-selected';
       },
 
-      openFintocWidget() {
+      async openFintocWidget() {
         this.getSessionId()
           .then(async (response) => {
               this.session = response;
@@ -408,7 +595,7 @@
                   .then((response) => {
                     this.fullName = response.data.full_name;
                     this.rut = response.data.rut;
-                    this.bank = response.data.bank;
+                    this.bank = this.banks.find((bank) => bank.id === response.data.bank);
                     this.accounts = response.data.accounts;
                     this.selectAccount(this.sortedAccounts[0]);
                     this.onboardedWithFintoc = true;
@@ -442,19 +629,16 @@
           rut: cleanRut,
           accountNumber: this.accountNumber,
           alias: cleanAlias,
-          accountType: this.accountType,
-          bank: this.bank,
-          email: this.email
+          accountType: this.accountType.id,
+          bank: this.bank.id,
+          email: this.email,
+          isBusiness: this.isBusiness
         };
         axios.post(`${process.env.VUE_APP_SLACH_BACKEND}/api/v1/users`, formData)
           .then(() => {
             this.submited = true;
             this.$router.push({ path: `/${this.alias}` });
-            window.scroll({
-              top: 0,
-              left: 0,
-              behavior: 'smooth'
-            });
+            this.scrollUp();
           })
           .catch((error) => {
             this.error = true;
@@ -479,5 +663,9 @@
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+  }
+
+  input[type="radio"]:checked + span {
+    display: block;
   }
 </style>

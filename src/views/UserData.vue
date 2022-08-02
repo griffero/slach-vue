@@ -17,11 +17,62 @@
             </div>
           </div>
 
-          <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+          <div v-if="step == 0" class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
             <h1 class="text-xl md:text-3xl mt-12 mb-6 font-bold text-center text-gray-900">
-              <span class="text-indigo-600">Págale a</span> {{ user.name }}
+              <span>¿Qué quieres hacer?</span>
             </h1>
 
+            <form class="w-full max-w-screen-md mx-auto mt-12 mb-10">
+              <div class="grid sm:grid-cols-2 gap-8">
+                <label class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer hover:bg-gray-700 hover:text-white text-gray-800">
+                  <span class="text-center text-2xl mb-3">
+                    <font-awesome-icon icon="user"/>
+                  </span>
+                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Pagar</span>
+                  <span class="font-regular text-center">Quiero pagarle a <span class="font-medium">{{ user.name }}</span></span>
+                  <input type="radio" value="true" class="absolute h-0 w-0 appearance-none" v-model="isPayer" />
+                  <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
+                    <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                  </span>
+                </label>
+
+                <label class="relative flex flex-col bg-white p-5 rounded-lg shadow-md cursor-pointer hover:bg-gray-700 hover:text-white text-gray-800">
+                  <span class="text-center text-2xl mb-3">
+                    <font-awesome-icon icon="hand-holding-dollar"/>
+                  </span>
+                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Cobrar</span>
+                  <span class="font-regular text-center">Soy <span class="font-medium">{{ user.name }}</span> y quiero que me paguen</span>
+                  <input type="radio" value="false" class="absolute h-0 w-0 appearance-none" v-model="isPayer" />
+                  <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
+                    <span class="absolute top-4 right-4 h-6 w-6 inline-flex items-center justify-center rounded-full bg-green-200">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5 text-green-600">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                      </svg>
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </form>
+
+            <button @click="moveForward"
+                    class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
+                           mt-8 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
+            >
+              Continuar
+            </button>
+          </div>
+
+          <div v-if="step == 1 && isPayer == 'true'" class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+            <h1 class="text-xl md:text-3xl mt-12 mb-6 font-bold text-center text-gray-900">
+              <span>Le vas a pagar a <span class="text-indigo-500">{{ user.name }}</span></span>
+            </h1>
+            <p class="font-medium text-left text-gray-900 w-full">
+              <span>¿Cuánto quieres transferir?</span>
+            </p>
             <div class="mt-6 w-full">
               <input
                 class="appearance-none block bg-grey-lighter text-grey-900 w-full h-12
@@ -35,6 +86,60 @@
                 Ingresa un monto válido
               </div>
             </div>
+
+            <button @click="moveForward"
+                    :disabled='$v.amount.$invalid'
+                    class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
+                           mt-8 py-2 mb-4 rounded-full text-white h-12 w-full text-center opacity-50"
+                    :class="{
+                      'focus:outline-none': $v.amount.$invalid,
+                      'cursor-not-allowed': $v.amount.$invalid,
+                      'hover:bg-indigo-400': !$v.amount.$invalid,
+                      'opacity-100': !$v.amount.$invalid,
+                    }"
+
+            >
+              Continuar
+            </button>
+          </div>
+
+          <div v-if="step == 1 && isPayer == 'false'" class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+            <h1 class="text-xl md:text-3xl mt-12 mb-6 font-bold text-center text-gray-900">
+              <span>Instrucciones para cobrar</span>
+            </h1>
+            <p class="font-medium text-left text-gray-900 w-full">
+              <span>¿Cuánto quieres cobrar?</span>
+            </p>
+            <div class="mt-6 w-full">
+              <input
+                class="appearance-none block bg-grey-lighter text-grey-900 w-full h-12
+                        border border-grey-lighter rounded-md py-4 px-4 leading-tight
+                        focus:shadow-sm text-gray-900 placeholder-gray-400 mr-2 md:mr-6"
+                placeholder="Elige monto"
+                @input="sanitizeAmount"
+                v-model.trim="$v.amount.$model"
+              >
+              <div class='dark:text-red-400 text-red-700 text-xs' v-if="$v.amount.$error">
+                Ingresa un monto válido
+              </div>
+            </div>
+            <p class="text-sm text-left w-full text-gray-600">
+              Déjalo en blanco si quieres que el destinatario seleccione el monto
+            </p>
+
+
+            <button @click="moveForward"
+                    class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
+                           mt-8 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
+            >
+              Continuar
+            </button>
+          </div>
+          
+          <div v-if="step == 2 && isPayer == 'true'" class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+            <h1 class="text-xl md:text-3xl mt-12 mb-6 font-bold text-center text-gray-900">
+              <span>Le vas a pagar ${{ formatPrice(amount) }} a <span class="text-indigo-500">{{ user.name }}</span></span>
+            </h1>
             <button @click="initiatePayment"
                     class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
                            mt-6 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
@@ -54,12 +159,8 @@
             <p class="text-sm text-left w-full text-gray-600" v-if="!manualTransfer">
               Te mostramos los datos bancarios y tú haces la transferencia
             </p>
-          </div>
 
-            <div class="max-w-md container flex-1 px-2 mx-auto items-center justify-center flex flex-col" v-if="manualTransfer">
-              <h3 class="mt-4 mb-8 text-center text-gray-600 font-medium">
-                Acá están los datos bancarios para que los copies e inscribas el destinatario en tu banco
-              </h3>
+            <div class="w-full" v-if="manualTransfer">
               <div class="w-full border rounded-lg py-4">
                 <table class="mx-auto divide-y divide-gray-200">
                   <tbody class="bg-white divide-y divide-gray-200">
@@ -149,8 +250,30 @@
                 </button>
               </div>
             </div>
+          </div>
 
-          <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+          <div v-if="step == 2 && isPayer == 'false'" class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
+            <h1 class="text-xl md:text-3xl mt-12 mb-6 font-bold text-center text-gray-900">
+              <span>Instrucciones para cobrar</span>
+            </h1>
+
+            <p class="font-medium text-center text-gray-900 w-full my-10">
+              <span>Si estás con la persona, pídele que escanee el código QR</span>
+            </p>
+            <qr-code :text="textToEncode"></qr-code>
+
+            <p class="font-medium text-center text-gray-900 w-full mt-10">
+              <span>Si no, envíale tu cuenta de slach 👇</span>
+            </p>
+            <p class="text-3xl font-semibold text-center text-indigo-400 w-full mt-4">
+              <span>{{ textToEncode }}</span>
+            </p>
+          </div>
+
+          <div
+            class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2"
+            v-if="step == 0 || isPayer == 'true'"
+          >
             <button
               @click="() => $router.push({ path: '/' })"
               class="
@@ -207,6 +330,9 @@
   import { required, integer, between } from 'vuelidate/lib/validators';
   import { cleanAmount } from '../validators/number_validator';
   import Info from '../views/Info.vue';
+  import Vue from 'vue'
+  import VueQRCodeComponent from 'vue-qr-generator'
+  Vue.component('qr-code', VueQRCodeComponent)
 
   export default {
     data () {
@@ -214,10 +340,12 @@
         showInfo: false,
         amount: cleanAmount(this.$route.params.amount),
         user: {},
+        step: 0,
         widget: null,
         widgetToken: null,
         confirmed: true,
         manualTransfer: false,
+        isPayer: null,
       };
     },
 
@@ -261,8 +389,16 @@
     },
 
     computed: {
+      textToEncode() {
+        if (this.amount > 0) {
+          return `www.slach.cl/${this.alias}/${this.amount}`;
+        } else {
+          return `www.slach.cl/${this.alias}`;
+        }
+      },
+
       linkToCopy() {
-        return `https://slach.cl/${this.alias}/${this.linkAmount}`;
+        return `www.slach.cl/${this.alias}/${this.linkAmount}`;
       },
 
       allBankData() {
@@ -298,6 +434,15 @@
     },
 
     methods: {
+      formatPrice(value) {
+        let val = (value/1).toFixed(0).replace('.', ',')
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+      },
+
+      moveForward() {
+        this.step += 1;
+      },
+
       toggleManualTransfer() {
         this.manualTransfer = !this.manualTransfer;
         if (this.manualTransfer) {
@@ -386,5 +531,18 @@
   }
   .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+  }
+</style>
+
+<style scoped>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
+  input[type="radio"]:checked + span {
+    display: block;
   }
 </style>

@@ -9,7 +9,7 @@ import {
   faEye, faEdit, faTrash, faPlus, faLock, faCog, faCopy, faBolt, faShieldAlt, faChevronLeft,
   faTimes, faBuilding, faUser, faDollarSign, faHandshake, faCheck, faKey, faUniversity,
   faMobile, faExclamationCircle, faQuestion, faSearch, faShare, faStore, fa1, fa2, faPencil,
-  faPaperPlane,
+  faPaperPlane, faHandHoldingDollar
 } from '@fortawesome/free-solid-svg-icons';
 import { faTwitter } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -25,7 +25,7 @@ library.add(
   faEye, faEdit, faPlus, faTrash, faLock, faCog, faCopy, faBolt, faShieldAlt, faChevronLeft,
   faTimes, faBuilding, faUser, faDollarSign, faHandshake, faCheck, faKey, faUniversity, faMobile,
   faExclamationCircle, faQuestion, faSearch, faShare, faTwitter, faStore, fa1, fa2, faPencil,
-  faPaperPlane
+  faPaperPlane, faHandHoldingDollar
 );
 
 Vue.use(VueMeta)

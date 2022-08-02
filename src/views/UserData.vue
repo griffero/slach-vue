@@ -18,11 +18,9 @@
             </div>
           </div>
 
-          <h2 class="text-center mt-12 mb-10 text-5xl font-bold text-gray-900 dark:text-white">⚡ Slach ⚡</h2>
-
           <div class="container max-w-md mx-auto flex-1 flex flex-col items-center justify-center md:justify-start px-2">
-            <h1 class="text-xl md:text-3xl mt-2 mb-6 font-bold text-center text-gray-900">
-              <span class="text-yellow-400">Págale a</span> {{ user.name }}
+            <h1 class="text-xl md:text-3xl mt-12 mb-6 font-bold text-center text-gray-900">
+              <span class="text-indigo-600">Págale a</span> {{ user.name }}
             </h1>
 
             <div class="mt-6 w-full">
@@ -39,13 +37,13 @@
               </div>
             </div>
             <button @click="initiatePayment"
-                    class="font-semibold px-4 border border-indigo-700 bg-indigo-700 hover:bg-indigo-500 hover:border-indigo-500
-                           mt-6 py-2 mb-4 rounded-md text-white h-12 w-full text-center"
+                    class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
+                           mt-6 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
             >
               Pagar rápido ⚡
             </button>
 
-            <p class="w-full text-left flex items-center font-semibold text-gray-600">
+            <p class="w-full text-left flex items-center font-medium text-gray-600">
               <span>
               <svg class="mr-2" width="15" height="15" viewBox="0 0 512 512" fill="#3762ff" xmlns="http://www.w3.org/2000/svg">
                 <path d="M466.5 83.6985L274.5 3.6985C268.651 1.27229 262.382 0.0234375 256.05 0.0234375C249.718 0.0234375 243.449 1.27229 237.6 3.6985L45.6 83.6985C27.7 91.0985 16 108.598 16 127.998C16 326.498 130.5 463.698 237.5 508.298C249.3 513.198 262.6 513.198 274.4 508.298C360.1 472.598 496 349.299 496 127.998C496 108.598 484.3 91.0985 466.5 83.6985ZM419.3 197.898L235.3 381.898C229.1 388.098 218.9 388.098 212.7 381.898L108.7 277.898C102.5 271.698 102.5 261.499 108.7 255.299L131.3 232.699C137.5 226.499 147.7 226.499 153.9 232.699L224 302.798L374.1 152.699C380.3 146.499 390.5 146.499 396.7 152.699L419.3 175.299C425.6 181.599 425.6 191.698 419.3 197.898V197.898Z" fill="#3762ff"/>
@@ -53,16 +51,16 @@
               </span>
               Transferencias gratis y rápidas con Fintoc</p>
             <button @click="toggleManualTransfer"
-                    class="font-semibold px-4 border border-indigo-700 bg-indigo-700 hover:bg-indigo-500 hover:border-indigo-500
-                           mt-12 py-2 mb-4 rounded-md text-white h-12 w-full text-center"
+                    class="font-medium px-4 border border-indigo-500 bg-indigo-500 hover:bg-indigo-400 hover:border-indigo-400
+                           mt-12 py-2 mb-4 rounded-full text-white h-12 w-full text-center"
             >
-              Ver datos para pagar manualmente 🐢
+              {{ manualTransfer ? 'Ocultar datos' : 'Ver datos para pagar manualmente 🐢' }}
             </button>
           </div>
 
           <transition name="fade">
             <div class="max-w-md container flex-1 px-2 mx-auto items-center justify-center flex flex-col" v-if="manualTransfer">
-              <h3 class="mt-4 mb-8 text-center text-gray-600 font-semibold">
+              <h3 class="mt-4 mb-8 text-center text-gray-600 font-medium">
                 Acá están los datos bancarios para que los copies e inscribas el destinatario en tu banco
               </h3>
               <div class="w-full border rounded-lg py-4">
@@ -74,7 +72,7 @@
                         <div class="text-sm text-gray-900 font-bold">{{ user.name }}</div>
                       </td>
                       <td class="px-6 pb-4 whitespace-nowrap text-right text-sm font-medium">
-                        <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        <button v-clipboard:copy='user.name' class="bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                           <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
@@ -87,7 +85,7 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.rut'
-                                class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                                class="bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                           <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
@@ -100,7 +98,7 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.bank'
-                                class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                                class="bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                           <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
@@ -113,7 +111,7 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.account_type'
-                                class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                                class="bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                           <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
@@ -126,7 +124,7 @@
                       </td>
                       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.account_number'
-                                class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                                class="bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                           <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
@@ -139,7 +137,7 @@
                       </td>
                       <td class="px-6 pt-4 whitespace-nowrap text-right text-sm font-medium">
                         <button v-clipboard:copy='user.email'
-                                class="bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                                class="bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                           <span class="mr-4 hidden md:block">Copiar</span> <font-awesome-icon icon="copy"/>
                         </button>
                       </td>
@@ -149,7 +147,7 @@
               </div>
               <div class="text-center">
                 <button v-clipboard:copy='allBankData'
-                        class="mt-6 bg-transparent hover:bg-indigo-700 text-indigo-700 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
+                        class="mt-6 bg-transparent hover:bg-indigo-500 text-indigo-500 font-semibold hover:text-white py-2 px-4 border border-indigo-500 hover:border-transparent rounded inline-flex items-center">
                   <span class="mr-4">Copiar todos los datos</span> <font-awesome-icon icon="copy"/>
                 </button>
               </div>
@@ -160,13 +158,13 @@
             <button
               @click="() => $router.push({ path: '/' })"
               class="
-                mt-10 py-2 mb-4 px-4 border h-12 w-full rounded-md
-                font-semibold text-center text-gray-800
-                border-yellow-300 bg-yellow-300
-                hover:bg-yellow-200 hover:border-yellow-200
+                mt-10 py-2 mb-4 px-4 border h-12 w-full rounded-full
+                font-medium text-center text-gray-800
+                border-green-300 bg-green-300
+                hover:bg-green-200 hover:border-green-200
               "
             >
-              ¿Todavía no tienes Slach? Créalo acá
+              ¿Todavía no tienes <strong>Slach</strong>? Créalo acá
             </button>
           </div>
         </div>
@@ -180,19 +178,19 @@
         ¿Nuevo en slach.cl ⚡?
       </h1>
       <h3 class="my-2">
-        ¡Te invitamos a <router-link class="text-indigo-700 font-bold" to="/">registrar</router-link> también tus datos!
+        ¡Te invitamos a <router-link class="text-indigo-500 font-bold" to="/">registrar</router-link> también tus datos!
       </h3>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
         ¿Cómo funciona? ¿Para qué sirve?
       </h1>
       <h3 class="my-2 ">
-        Más info <span class="text-indigo-700 cursor-pointer font-bold" @click="toggleShowInfo"> acá </span>
+        Más info <span class="text-indigo-500 cursor-pointer font-bold" @click="toggleShowInfo"> acá </span>
       </h3>
       <h1 class="mt-6 text-xl md:text-2xl text-gray-900">
         ¿Tienes Feedback?
       </h1>
       <h3 class="my-2 ">
-        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-700 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>
+        <a href='https://www.twitter.com/CGriffero' target="_blank" class="text-indigo-500 cursor-pointer font-bold"> Escríbeme <font-awesome-icon :icon="[ 'fab', 'twitter' ]" /></a>
       </h3>
     </div>
   </div>

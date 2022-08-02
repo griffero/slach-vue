@@ -12,7 +12,7 @@
                   <span class="text-center text-2xl mb-3">
                     <font-awesome-icon icon="user"/>
                   </span>
-                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Personal</span>
+                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Para mí</span>
                   <span class="font-regular text-center">Recibe pagos de tus amigos de forma fácil</span>
                   <input type="radio" value="false" class="absolute h-0 w-0 appearance-none" v-model="isBusiness" />
                   <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">
@@ -28,7 +28,7 @@
                   <span class="text-center text-2xl mb-3">
                     <font-awesome-icon icon="store"/>
                   </span>
-                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Negocio</span>
+                  <span class="font-semibold leading-tight uppercase mb-3 text-center">Para mi negocio</span>
                   <span class="font-regular text-center">Recibe pagos en tu negocio con un link de pagos o un código QR</span>
                   <input type="radio" value="true" class="absolute h-0 w-0 appearance-none" v-model="isBusiness" />
                   <span aria-hidden="true" class="hidden absolute inset-0 border-2 border-green-500 bg-green-200 bg-opacity-10 rounded-lg">

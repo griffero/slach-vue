@@ -584,9 +584,10 @@
         this.getSessionId()
           .then(async (response) => {
               this.session = response;
+              const holderType = this.isBusiness ? 'business' : 'individual';
               const Fintoc = await getFintoc();
               this.widget = Fintoc.create({
-              holderType: 'individual',
+              holderType: holderType,
               product: 'movements',
               publicKey: `${process.env.VUE_APP_FINTOC_PUBLIC_KEY}`,
               webhookUrl: `${process.env.VUE_APP_SLACH_BACKEND}/api/v1/fintoc/${this.session}/webhook`,
